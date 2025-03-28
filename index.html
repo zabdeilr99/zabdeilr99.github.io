@@ -304,18 +304,69 @@ footer {
         });
     </script>
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  <!-- Pantalla de Inicio -->
-  <div id="pantalla-inicio">
-    <img src="sddd.jpeg" alt="Pantalla de Inicio">
-    <button id="entrar-btn">Entrar</button>
+ <!-- Pantalla de Inicio (mismo código anterior) -->
+ <div id="pantalla-inicio">
+    <img src="sddd.jpeg" alt="Perfil del Maestro">
+    <h2 style="color:white; margin-bottom:20px;">Bienvenido a Inspirando Mentes</h2>
+    <button id="entrar-btn">Explorar Blog</button>
 </div>
-
 
 <!-- Contenido Principal -->
 <div id="contenido">
-    <h1>Bienvenido a mi programa</h1>
-    <p>Aquí irá el contenido principal.</p>
-</div>
+    <header>
+        <h1>Inspirando Mentes</h1>
+        <p>Blog de un Maestro Apasionado</p>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#about">Sobre Mí</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#recursos">Recursos</a></li>
+            <li><a href="#contact">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <section id="about">
+        <h2>Sobre Mí</h2>
+        <p>Soy un maestro comprometido con la educación, apasionado por inspirar y transformar vidas a través del aprendizaje. Mi objetivo es crear experiencias educativas significativas que despierten la curiosidad y el amor por el conocimiento.</p>
+    </section>
+
+    <section id="blog">
+        <h2>Mis Publicaciones</h2>
+        <div id="blog-posts">
+            <article class="blog-post">
+                <h3>Tecnología en el Aula</h3>
+                <p class="fecha">15 de marzo de 2024</p>
+                <p>Explorando cómo las herramientas digitales pueden transformar la experiencia de aprendizaje.</p>
+            </article>
+            <article class="blog-post">
+                <h3>Construyendo Relaciones Significativas</h3>
+                <p class="fecha">1 de marzo de 2024</p>
+                <p>La importancia de crear un ambiente de confianza y apoyo en el entorno educativo.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="recursos">
+        <h2>Recursos Educativos</h2>
+        <div id="lista-recursos">
+            <ul>
+                <li>Guía de Gamificación en el Aula</li>
+                <li>Estrategias de Aprendizaje Colaborativo</li>
+                <li>Herramientas Digitales para Educadores</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contáctame</h2>
+        <form id="contact-form">
+            <input type="text" placeholder="Nombre" required>
+            <input type="email" placeholder="Correo Electrónico" required>
+            <textarea placeholder="Tu Mensaje" rows="5" required></textarea>
+            <button type="submit">Enviar Mensaje</button>
+        </form>
+    </section>
 
 <script>
     document.getElementById("entrar-btn").addEventListener("click", function() {
@@ -328,33 +379,6 @@ footer {
     });
 </script>
 -------------------------------------------
-<header>
-    <h1>Welcome to My Professional Blog</h1>
-    <nav>
-        <ul>
-            <li><a href="#about">About Me</a></li>
-            <li><a href="#blog">Blog Posts</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-</header>
-<section id="about">
-    <h2>About Me</h2>
-    <p>Hi! I'm a dedicated teacher with a passion for education and lifelong learning.</p>
-</section>
-
-<section id="blog">
-    <h2>Blog Posts</h2>
-    <article>
-        <h3>Embracing Technology in the Classroom</h3>
-        <p>Technology has transformed the way we teach and learn...</p>
-    </article>
-    <article>
-        <h3>Building Strong Relationships with Students</h3>
-        <p>Creating a positive classroom environment is essential...</p>
-    </article>
-</section>
-
 <footer id="contact">
     <h2>Contact Me</h2>
     <p>Email: teacher@example.com</p>
