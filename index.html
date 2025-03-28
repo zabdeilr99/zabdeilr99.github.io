@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisis Hipertensivas - Guía Interactiva</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    .profile-container {
+        margin: 20px;
+        text-align: center;
+    }
+
+    .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #007BFF;
+    }
+
+    .image-upload {
+        margin-top: 10px;
+    }
+
+    .tab-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .tab-button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .tab-button.active {
+        background-color: #0056b3;
+    }
+
+    .tab-content {
+        display: none;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+</style>
+
+<style>
+    /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Header */
+header {
+    background-color: #0073e6;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Sections */
+section {
+    padding: 40px;
+    text-align: center;
+    background: white;
+    margin: 20px auto;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Blog Posts */
+article {
+    background: #f0f0f0;
+    padding: 20px;
+    margin: 20px auto;
+    width: 70%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Contact Form */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 0 auto;
+}
+
+input, textarea {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #0073e6;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #005bb5;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+</style>
+</style>
+-----------------------------
+<style>
+        /* Estilos generales */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        /* Estilos de la pantalla de inicio */
+        #pantalla-inicio {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.8s ease-out; /* Efecto de desvanecimiento */
+        }
+
+        #pantalla-inicio img {
+            max-width: 80%;
+            max-height: 60%;
+            border-radius: 10px;
+        }
+
+        /* Botón de entrada */
+        #entrar-btn {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        #entrar-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Ocultar contenido principal al inicio */
+        #contenido {
+            display: none;
+            padding: 20px;
+        }
+    </style>
+-----------------------------------
+</head>
+<body>
+    <header>
+        <h1>Crisis Hipertensivas</h1>
+        <p>Guía interactiva para residentes de urgencias</p>
+    </header>
+
+    <div class="profile-container">
+        <img id="profilePic" class="profile-image" src="default-profile.png" alt="Imagen de perfil">
+        <input type="file" id="uploadImage" class="image-upload" accept="image/*">
+    </div>
+
+    <div class="tab-container">
+        <button class="tab-button active" onclick="openTab(event, 'resumen')">Resumen</button>
+        <button class="tab-button" onclick="openTab(event, 'conceptos')">Conceptos Clave</button>
+        <button class="tab-button" onclick="openTab(event, 'cuadro_clinico')">Cuadro Clínico</button>
+        <button class="tab-button" onclick="openTab(event, 'diagnostico')">Diagnóstico</button>
+        <button class="tab-button" onclick="openTab(event, 'diagnostico_diferencial')">Diagnóstico Diferencial</button>
+        <button class="tab-button" onclick="openTab(event, 'ejemplos')">Ejemplos Clínicos</button>
+        <button class="tab-button" onclick="openTab(event, 'escalas')">Escalas Diagnósticas</button>
+        <button class="tab-button" onclick="openTab(event, 'exploracion')">Exploración Física</button>
+        <button class="tab-button" onclick="openTab(event, 'reflexiones')">Reflexiones</button>
+    </div>
+
+    <div id="resumen" class="tab-content active">
+        <h2>Resumen</h2>
+        <p>Las crisis hipertensivas son aumentos severos de la presión arterial que requieren atención inmediata...</p>
+    </div>
+
+    <div id="conceptos" class="tab-content">
+        <h2>Conceptos Clave</h2>
+        <a href="Conceptos%20Clave.html" target="_blank">Conceptos Clave</a>
+    </div>
+
+    <div id="cuadro_clinico" class="tab-content">
+        <h2>Cuadro Clínico</h2>
+        <a href="Cuadro%20Cl%C3%ADnico.html" target="_blank">Cuadro Clínico</a>
+    </div>
+
+    <div id="diagnostico" class="tab-content">
+        <h2>Diagnóstico</h2>
+        <a href="Diagn%C3%B3stico.html" target="_blank">Diagnóstico</a>
+    </div>
+
+    <div id="diagnostico_diferencial" class="tab-content">
+        <h2>Diagnóstico Diferencial</h2>
+        <a href="Diagn%C3%B3stico%20Diferencial.html" target="_blank">Diagnóstico Diferencial</a>
+    </div>
+
+    <div id="ejemplos" class="tab-content">
+        <h2>Ejemplos Clínicos</h2>
+        <a href="Ejemplos%20Cl%C3%ADnicos.html" target="_blank">Ejemplos Clínicos</a>
+    </div>
+
+    <div id="escalas" class="tab-content">
+        <h2>Escalas Diagnósticas</h2>
+        <a href="Escalas%20Diagn%C3%B3sticas.html" target="_blank">Escalas Diagnósticas</a>
+    </div>
+
+    <div id="exploracion" class="tab-content">
+        <h2>Exploración Física</h2>
+        <a href="Exploraci%C3%B3n%20F%C3%ADsica.html" target="_blank">Exploración Física</a>
+    </div>
+
+    <div id="reflexiones" class="tab-content">
+        <h2>Reflexiones</h2>
+        <a href="Reflexiones.html" target="_blank">Reflexiones</a>
+    </div>
+    <script>
+        function openTab(event, tabName) {
+            document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
+            document.querySelectorAll(".tab-button").forEach(button => button.classList.remove("active"));
+            document.getElementById(tabName).classList.add("active");
+            event.currentTarget.classList.add("active");
+        }
+
+        document.getElementById('uploadImage').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profilePic').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  <!-- Pantalla de Inicio -->
+  <div id="pantalla-inicio">
+    <img src="sddd.jpeg" alt="Pantalla de Inicio">
+    <button id="entrar-btn">Entrar</button>
+</div>
+
+
+<!-- Contenido Principal -->
+<div id="contenido">
+    <h1>Bienvenido a mi programa</h1>
+    <p>Aquí irá el contenido principal.</p>
+</div>
+
+<script>
+    document.getElementById("entrar-btn").addEventListener("click", function() {
+        let pantallaInicio = document.getElementById("pantalla-inicio");
+        pantallaInicio.style.opacity = "0"; // Desvanecer
+        setTimeout(() => {
+            pantallaInicio.style.display = "none"; // Ocultar después de la animación
+            document.getElementById("contenido").style.display = "block"; // Mostrar contenido
+        }, 800);
+    });
+</script>
+-------------------------------------------
+<header>
+    <h1>Welcome to My Professional Blog</h1>
+    <nav>
+        <ul>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#blog">Blog Posts</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+<section id="about">
+    <h2>About Me</h2>
+    <p>Hi! I'm a dedicated teacher with a passion for education and lifelong learning.</p>
+</section>
+
+<section id="blog">
+    <h2>Blog Posts</h2>
+    <article>
+        <h3>Embracing Technology in the Classroom</h3>
+        <p>Technology has transformed the way we teach and learn...</p>
+    </article>
+    <article>
+        <h3>Building Strong Relationships with Students</h3>
+        <p>Creating a positive classroom environment is essential...</p>
+    </article>
+</section>
+
+<footer id="contact">
+    <h2>Contact Me</h2>
+    <p>Email: teacher@example.com</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
