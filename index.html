@@ -13,491 +13,586 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --white: #ffffff;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 15px;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+
+        body {
+            background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            background-image: url(5-arbol-atardecer-nubes-agua-naturaleza-noche-bonita-en-la-orrilla-del-mar-fondos-de-pantalla-bonitos-y-originales-para-descargar-gratis.jpg); /* Reemplazar con tu imagen */
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-            text-align: center;
+            overflow-x: hidden;
         }
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
+
+        /* Loading Spinner */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid var(--white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
         }
-        
-        /* Pantalla de inicio */
-        #pantalla-inicio {
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Pantalla de Inicio */
+        .splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #6b4e89 0%, #2575fc 100%);
+            background: var(--primary-gradient);
             z-index: 1000;
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transition: var(--transition);
         }
-        
-        #pantalla-inicio img {
-            width: 200px; /* Tamaño fijo para la imagen */
-            height: 200px; /* Tamaño fijo para la imagen */
-            object-fit: cover;
-            border-radius: 50%;
-            border: 3px solid white;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-        
-        #pantalla-inicio img:hover {
-            transform: scale(1.05);
-        }
-        
-        #entrar-btn {
-            background-color: white;
-            color: #7b6692;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        #entrar-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-        
-        #entrar-btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        #entrar-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 0.4s ease;
-        }
-        
-        #entrar-btn:hover::before {
-            left: 100%;
-        }
-        
-        /* Contenido principal */
-        #contenido {
-            display: none;
+
+        .splash-screen.hidden {
             opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8);
+        }
+
+        .splash-logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid var(--white);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            animation: pulse 2s infinite;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="%23f0f0f0"/><text x="100" y="115" text-anchor="middle" font-size="60" fill="%236a11cb">IM</text></svg>') center/cover;
+        }
+
+        .splash-title {
+            color: var(--white);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        .enter-btn {
+            background: var(--white);
+            color: var(--primary-color);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: fadeInUp 1s ease 1s both;
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Contenido Principal */
+        main {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-            position: relative;
+            padding: 2rem;
         }
-        
-        header {
+
+        main.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        .header {
             text-align: center;
-            padding: 40px 0;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transform: translateY(-20px);
-            opacity: 0;
-            animation: fadeInDown 0.8s ease forwards;
-            animation-delay: 0.2s;
+            padding: 3rem 2rem;
+            background: var(--primary-gradient);
+            color: var(--white);
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
         }
-        
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            animation: fadeInDown 0.8s ease;
         }
-        
-        nav {
-            background-color: white;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transform: translateY(-20px);
-            opacity: 0;
-            animation: fadeInDown 0.8s ease forwards;
-            animation-delay: 0.4s;
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInDown 0.8s ease 0.2s both;
         }
-        
-        nav ul {
+
+        /* Navegación */
+        .navigation {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .nav-list {
             display: flex;
             justify-content: center;
             list-style: none;
+            margin: 0;
             padding: 0;
         }
-        
-        nav ul li {
-            margin: 0;
+
+        .nav-item {
             position: relative;
         }
-        
-        nav ul li a {
+
+        .nav-link {
             display: block;
-            padding: 15px 20px;
-            color: #333;
+            padding: 1.2rem 1.5rem;
+            color: var(--text-color);
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            position: relative;
         }
-        
-        nav ul li a:hover {
-            color: #6a11cb;
+
+        .nav-link:hover,
+        .nav-link:focus {
+            color: var(--primary-color);
+            background: rgba(106, 17, 203, 0.05);
+            outline: none;
         }
-        
-        nav ul li a::after {
+
+        .nav-link::after {
             content: '';
             position: absolute;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
             bottom: 0;
             left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transition: var(--transition);
             transform: translateX(-50%);
-            transition: width 0.3s ease;
         }
-        
-        nav ul li a:hover::after {
+
+        .nav-link:hover::after {
             width: 80%;
         }
-        
-        .profile-container {
+
+        /* Perfil */
+        .profile-section {
             display: flex;
             justify-content: center;
-            margin-bottom: 30px;
-            transform: translateY(-20px);
-            opacity: 0;
-            animation: fadeInDown 0.8s ease forwards;
-            animation-delay: 0.6s;
+            margin-bottom: 2rem;
         }
-        
+
         .profile-image {
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            border: 3px solid #6a11cb;
+            border: 4px solid var(--primary-color);
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><circle cx="75" cy="75" r="70" fill="%23f0f0f0"/><text x="75" y="85" text-anchor="middle" font-size="40" fill="%236a11cb">👨‍🏫</text></svg>') center/cover;
         }
-        
+
         .profile-image:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            border-color: #2575fc;
+            border-color: var(--secondary-color);
         }
-        
-        .image-upload {
-            display: none;
-        }
-        
+
+        /* Tabs */
         .tab-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: 30px;
-            transform: translateY(-20px);
-            opacity: 0;
-            animation: fadeInDown 0.8s ease forwards;
-            animation-delay: 0.8s;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
         }
-        
+
         .tab-button {
-            background-color: white;
-            color: #555;
+            background: var(--white);
+            color: var(--text-color);
             border: none;
-            padding: 10px 15px;
-            margin: 5px;
-            border-radius: 20px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             font-weight: 500;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
-        
-        .tab-button:hover {
-            background-color: #f0f0f0;
+
+        .tab-button:hover,
+        .tab-button:focus {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .tab-button.active {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            box-shadow: 0 4px 10px rgba(106, 17, 203, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .tab-content {
-            display: none;
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
-        }
-        
-        .tab-content.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .tab-content h2 {
-            color: #6a11cb;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-        }
-        
-        .tab-content a {
-            display: inline-block;
-            margin-top: 10px;
-            color: #2575fc;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .tab-content a:hover {
-            color: #6a11cb;
-            text-decoration: underline;
-        }
-        
-        section {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.5s ease;
-        }
-        
-        section h2 {
-            color: #6a11cb;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-        
-        section h2::after {
-            content: '';
-            position: absolute;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            bottom: 0;
-            left: 0;
-            transition: width 0.3s ease;
-        }
-        
-        section:hover h2::after {
-            width: 100px;
-        }
-        
-        .blog-post {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-        }
-        
-        .blog-post:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            border-left-color: #6a11cb;
-        }
-        
-        .blog-post h3 {
-            color: #333;
-            margin-bottom: 8px;
-            transition: color 0.3s ease;
-        }
-        
-        .blog-post:hover h3 {
-            color: #6a11cb;
-        }
-        
-        .fecha {
-            font-size: 0.9rem;
-            color: #888;
-            margin-bottom: 10px;
-        }
-        
-        .leer-mas {
-            display: inline-block;
-            margin-top: 10px;
-            color: #2575fc;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .leer-mas:hover {
-            color: #6a11cb;
-            text-decoration: underline;
-        }
-        
-        #lista-recursos ul {
-            list-style: none;
-        }
-        
-        #lista-recursos li {
-            margin-bottom: 15px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            transform: translateX(-10px);
-        }
-        
-        #lista-recursos li:hover {
-            background-color: #f0f0f0;
-            transform: translateX(0);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        #lista-recursos i {
-            color: #6a11cb;
-            margin-right: 10px;
-            transition: transform 0.3s ease;
-        }
-        
-        #lista-recursos li:hover i {
-            transform: scale(1.2);
-        }
-        
-        #contact-form {
-            display: grid;
-            gap: 15px;
-        }
-        
-        #contact-form input,
-        #contact-form textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             outline: none;
         }
-        
-        #contact-form input:focus,
-        #contact-form textarea:focus {
-            border-color: #6a11cb;
-            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+
+        .tab-button.active {
+            background: var(--primary-gradient);
+            color: var(--white);
+            transform: translateY(-2px);
         }
-        
-        #contact-form button {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
+
+        .tab-content {
+            display: none;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
         }
-        
-        #contact-form button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+
+        .tab-content.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
         }
-        
-        #contact-form button:active {
-            transform: translateY(1px);
+
+        .tab-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
         }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: white;
-            border-radius: 10px;
+
+        .tab-content h3 {
+            color: var(--text-color);
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .tab-content ul,
+        .tab-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Secciones */
+        .section {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
             transform: translateY(20px);
             opacity: 0;
-            transition: all 0.5s ease;
+            transition: var(--transition);
         }
-        
-        footer a {
-            color: #66b3ff;
+
+        .section.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+        }
+
+        /* Blog Posts */
+        .blog-post {
+            background: linear-gradient(135deg, #f9f9f9 0%, #f5f5f5 100%);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--primary-color);
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+        }
+
+        .blog-post h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .blog-post:hover h3 {
+            color: var(--primary-color);
+        }
+
+        .date {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .date::before {
+            content: '📅';
+            margin-right: 0.5rem;
+        }
+
+        .read-more {
+            color: var(--secondary-color);
             text-decoration: none;
-            transition: color 0.3s ease;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
         }
-        
-        footer a:hover {
-            color: white;
+
+        .read-more:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
         }
-        
-        footer i {
-            margin: 0 10px;
-            color: #999;
-            transition: all 0.3s ease;
+
+        .read-more::after {
+            content: '→';
+            margin-left: 0.5rem;
+            transition: var(--transition);
         }
-        
-        footer i:hover {
-            color: white;
+
+        /* Recursos */
+        .resource-list {
+            list-style: none;
+        }
+
+        .resource-item {
+            background: linear-gradient(135deg, #f9f9f9 0%, #f5f5f5 100%);
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            transition: var(--transition);
+            transform: translateX(-10px);
+            opacity: 0;
+            cursor: pointer;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .resource-item.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .resource-item:hover {
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+            transform: translateX(5px);
+            box-shadow: var(--shadow);
+        }
+
+        .resource-item i {
+            color: var(--primary-color);
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Formulario */
+        .contact-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .form-field {
+            position: relative;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+            background: #fafafa;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+            background: var(--white);
+        }
+
+        .form-input:valid,
+        .form-textarea:valid {
+            border-color: var(--success-color);
+        }
+
+        .submit-btn {
+            background: var(--primary-gradient);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(106, 17, 203, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--text-color);
+            color: var(--white);
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+        }
+
+        .footer a {
+            color: var(--white);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            text-decoration: none;
+            margin: 0 0.5rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-3px);
         }
-        
+
+        /* Notificaciones */
         .notification {
             position: fixed;
             bottom: -100px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #333;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background: var(--text-color);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
             z-index: 1000;
-            transition: bottom 0.3s ease;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            max-width: 400px;
         }
-        
+
         .notification.show {
-            bottom: 20px;
+            bottom: 2rem;
         }
-        
+
         .notification.success {
-            background-color: #28a745;
+            background: var(--success-color);
         }
-        
+
         .notification.error {
-            background-color: #dc3545;
+            background: var(--error-color);
         }
-        
+
         .notification.info {
-            background-color: #17a2b8;
+            background: var(--info-color);
         }
-        
+
+        /* Botón flotante */
+        .back-to-top {
+            position: fixed;
+            bottom: -60px;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-to-top.show {
+            bottom: 2rem;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
         /* Animaciones */
         @keyframes fadeInDown {
             from {
@@ -509,7 +604,7 @@
                 transform: translateY(0);
             }
         }
-        
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -520,458 +615,844 @@
                 transform: translateY(0);
             }
         }
-        
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-        
+
         @keyframes pulse {
-            0% {
+            0%, 100% {
                 transform: scale(1);
             }
             50% {
                 transform: scale(1.05);
             }
-            100% {
-                transform: scale(1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            main {
+                padding: 1.5rem;
             }
         }
-        
-        /* Para las secciones que se animarán al hacer scroll */
-        .animate-on-scroll {
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.8s ease;
+
+        @media (max-width: 768px) {
+            .nav-list {
+                flex-direction: column;
+            }
+            
+            .nav-link {
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            .tab-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+
+            .splash-title {
+                font-size: 1.5rem;
+            }
+
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
         }
-        
-        .animate-on-scroll.animated {
-            transform: translateY(0);
-            opacity: 1;
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 2rem 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tab-button {
+                font-size: 0.9rem;
+                padding: 0.6rem 1rem;
+            }
+            
+            .blog-post,
+            .resource-item {
+                padding: 1rem;
+            }
         }
-        
-        /* Animación para el botón flotante de regreso arriba */
-        .back-to-top {
-            position: fixed;
-            bottom: -60px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            z-index: 99;
+
+        /* Estados de carga */
+        .loading {
+            opacity: 0.5;
+            pointer-events: none;
         }
-        
-        .back-to-top.show {
-            bottom: 20px;
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
-        
-        .back-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(106, 17, 203, 0.4);
-        }
-        
-        /* Animación para los íconos de redes sociales en el footer */
-        .social-icon {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            margin: 0 5px;
-            transition: all 0.3s ease;
-        }
-        
-        .social-icon:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
+
+        /* Focus visible para navegación por teclado */
+        .tab-button:focus-visible,
+        .nav-link:focus-visible,
+        .enter-btn:focus-visible,
+        .submit-btn:focus-visible,
+        .back-to-top:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
         }
     </style>
 </head>
 <body>
     <!-- Pantalla de Inicio -->
-    <div id="pantalla-inicio" class="animate__animated animate__fadeIn">
-        <img src="ims.jpg" alt="Perfil del Maestro" class="animate__animated animate__pulse animate__infinite animate__slow">
-        <h2 style="color:white; margin-bottom:20px;" class="animate__animated animate__fadeIn animate__delay-1s">Bienvenido a Inspirando Mentes</h2>
-        <button id="entrar-btn" class="animate__animated animate__fadeIn animate__delay-2s">Explorar Blog</button>
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-logo"></div>
+        <h2 class="splash-title">Bienvenido a Inspirando Mentes</h2>
+        <button class="enter-btn" id="enterBtn" aria-label="Explorar el blog">Explorar Blog</button>
     </div>
 
     <!-- Contenido Principal -->
-    <div id="contenido">
-        <header>
-            <h1 class="animate__animated animate__fadeIn">Inspirando Mentes</h1>
-            <p class="animate__animated animate__fadeIn animate__delay-1s">Blog de un Maestro Apasionado</p>
+    <main id="mainContent">
+        <!-- Header -->
+        <header class="header">
+            <h1>Inspirando Mentes</h1>
+            <p>Blog de un Maestro Apasionado</p>
         </header>
-        
-        <nav>
-            <ul>
-                <li><a href="#about"><i class="fas fa-user"></i> Sobre Mí</a></li>
-                <li><a href="#blog"><i class="fas fa-blog"></i> Blog</a></li>
-                <li><a href="#recursos"><i class="fas fa-book"></i> Recursos</a></li>
-                <li><a href="#contact"><i class="fas fa-envelope"></i> Contacto</a></li>
+
+        <!-- Navegación -->
+        <nav class="navigation" role="navigation" aria-label="Navegación principal">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#about" class="nav-link" aria-label="Ir a la sección Sobre Mí">
+                        <i class="fas fa-user" aria-hidden="true"></i> Sobre Mí
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#blog" class="nav-link" aria-label="Ir a la sección Blog">
+                        <i class="fas fa-blog" aria-hidden="true"></i> Blog
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#recursos" class="nav-link" aria-label="Ir a la sección Recursos">
+                        <i class="fas fa-book" aria-hidden="true"></i> Recursos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link" aria-label="Ir a la sección Contacto">
+                        <i class="fas fa-envelope" aria-hidden="true"></i> Contacto
+                    </a>
+                </li>
             </ul>
         </nav>
 
-        <div class="profile-container">
-            <img id="profilePic" class="profile-image animate__animated animate__fadeIn" src="/api/placeholder/150/150" alt="Imagen de perfil">
-            <input type="file" id="uploadImage" class="image-upload" accept="image/*">
+        <!-- Perfil -->
+        <div class="profile-section">
+            <div class="profile-image" id="profileImage" role="button" tabindex="0" aria-label="Cambiar imagen de perfil"></div>
+            <input type="file" id="imageUpload" accept="image/*" style="display: none;" aria-label="Subir imagen de perfil">
         </div>
 
-        <div class="tab-container">
-            <button class="tab-button active" data-tab="resumen">Resumen</button>
-            <button class="tab-button" data-tab="conceptos">Conceptos Clave</button>
-            <button class="tab-button" data-tab="cuadro_clinico">Cuadro Clínico</button>
-            <button class="tab-button" data-tab="diagnostico">Diagnóstico</button>
-            <button class="tab-button" data-tab="diagnostico_diferencial">Diagnóstico Diferencial</button>
-            <button class="tab-button" data-tab="ejemplos">Ejemplos Clínicos</button>
-            <button class="tab-button" data-tab="escalas">Escalas Diagnósticas</button>
-            <button class="tab-button" data-tab="exploracion">Exploración Física</button>
-            <button class="tab-button" data-tab="reflexiones">Reflexiones</button>
+        <!-- Tabs -->
+        <div class="tab-container" id="tabContainer" role="tablist" aria-label="Navegación de contenido educativo">
+            <button class="tab-button active" data-tab="resumen" role="tab" aria-selected="true" aria-controls="resumen-content">Resumen</button>
+            <button class="tab-button" data-tab="conceptos" role="tab" aria-selected="false" aria-controls="conceptos-content">Conceptos Clave</button>
+            <button class="tab-button" data-tab="cuadro_clinico" role="tab" aria-selected="false" aria-controls="cuadro-clinico-content">Cuadro Clínico</button>
+            <button class="tab-button" data-tab="diagnostico" role="tab" aria-selected="false" aria-controls="diagnostico-content">Diagnóstico</button>
+            <button class="tab-button" data-tab="diagnostico_diferencial" role="tab" aria-selected="false" aria-controls="diagnostico-diferencial-content">Diagnóstico Diferencial</button>
+            <button class="tab-button" data-tab="ejemplos" role="tab" aria-selected="false" aria-controls="ejemplos-content">Ejemplos Clínicos</button>
+            <button class="tab-button" data-tab="escalas" role="tab" aria-selected="false" aria-controls="escalas-content">Escalas Diagnósticas</button>
+            <button class="tab-button" data-tab="exploracion" role="tab" aria-selected="false" aria-controls="exploracion-content">Exploración Física</button>
+            <button class="tab-button" data-tab="reflexiones" role="tab" aria-selected="false" aria-controls="reflexiones-content">Reflexiones</button>
         </div>
 
-        <div id="resumen" class="tab-content active">
-            <h2>Resumen</h2>
-            <p>Las crisis hipertensivas son aumentos severos de la presión arterial que requieren atención inmediata...</p>
-        </div>
-
-        <div id="conceptos" class="tab-content">
-            <h2>Conceptos Clave</h2>
-            <a href="Conceptos%20Clave.html" target="_blank">Conceptos Clave</a>
-        </div>
-
-        <div id="cuadro_clinico" class="tab-content">
-            <h2>Cuadro Clínico</h2>
-            <a href="Cuadro%20Cl%C3%ADnico.html" target="_blank">Cuadro Clínico</a>
-        </div>
-
-        <div id="diagnostico" class="tab-content">
-            <h2>Diagnóstico</h2>
-            <a href="Diagn%C3%B3stico.html" target="_blank">Diagnóstico</a>
-        </div>
-
-        <div id="diagnostico_diferencial" class="tab-content">
-            <h2>Diagnóstico Diferencial</h2>
-            <a href="Diagn%C3%B3stico%20Diferencial.html" target="_blank">Diagnóstico Diferencial</a>
-        </div>
-
-        <div id="ejemplos" class="tab-content">
-            <h2>Ejemplos Clínicos</h2>
-            <a href="Ejemplos%20Cl%C3%ADnicos.html" target="_blank">Ejemplos Clínicos</a>
-        </div>
-
-        <div id="escalas" class="tab-content">
-            <h2>Escalas Diagnósticas</h2>
-            <a href="Escalas%20Diagn%C3%B3sticas.html" target="_blank">Escalas Diagnósticas</a>
-        </div>
-
-        <div id="exploracion" class="tab-content">
-            <h2>Exploración Física</h2>
-            <a href="Exploraci%C3%B3n%20F%C3%ADsica.html" target="_blank">Exploración Física</a>
-        </div>
-
-        <div id="reflexiones" class="tab-content">
-            <h2>Reflexiones</h2>
-            <a href="Reflexiones.html" target="_blank">Reflexiones</a>
-        </div>
-
-        <section id="about" class="animate-on-scroll">
-            <h2>Sobre Mí</h2>
-            <p>Soy un maestro comprometido con la educación, apasionado por inspirar y transformar vidas a través del aprendizaje. Mi objetivo es crear experiencias educativas significativas que despierten la curiosidad y el amor por el conocimiento.</p>
-            <p>Con más de 10 años de experiencia en el ámbito educativo, he trabajado en diversos niveles y contextos, lo que me ha permitido desarrollar una visión amplia y flexible de la enseñanza. Creo firmemente que cada estudiante tiene un potencial único que puede ser desarrollado mediante las estrategias adecuadas.</p>
-            <p>Este blog nace como un espacio para compartir reflexiones, experiencias y recursos que puedan ser útiles para otros educadores, padres y todas aquellas personas interesadas en el maravilloso mundo de la educación.</p>
-        </section>
-
-        <section id="blog" class="animate-on-scroll">
-            <h2>Mis Publicaciones</h2>
-            <div id="blog-posts">
-                <article class="blog-post">
-                    <h3>Tecnología en el Aula: Oportunidades y Desafíos</h3>
-                    <p class="fecha">15 de marzo de 2024</p>
-                    <p>Explorando cómo las herramientas digitales pueden transformar la experiencia de aprendizaje. En este artículo analizamos tanto las ventajas como los retos que supone incorporar la tecnología en nuestras prácticas docentes.</p>
-                    <a href="#" class="leer-mas">Leer más...</a>
-                </article>
-                
-                <article class="blog-post">
-                    <h3>Construyendo Relaciones Significativas en el Entorno Educativo</h3>
-                    <p class="fecha">1 de marzo de 2024</p>
-                    <p>La importancia de crear un ambiente de confianza y apoyo en el entorno educativo. Descubre estrategias prácticas para fortalecer los vínculos con tus estudiantes y fomentar un clima positivo en el aula.</p>
-                    <a href="#" class="leer-mas">Leer más...</a>
-                </article>
-                
-                <article class="blog-post">
-                    <h3>Aprendizaje Basado en Proyectos: Guía Práctica</h3>
-                    <p class="fecha">15 de febrero de 2024</p>
-                    <p>Una metodología que transforma el aprendizaje en una experiencia activa y significativa. En este artículo comparto pasos concretos para implementar proyectos efectivos en cualquier nivel educativo.</p>
-                    <a href="#" class="leer-mas">Leer más...</a>
-                </article>
+        <!-- Tab Contents -->
+        <div id="tabContents">
+            <div class="tab-content active" data-content="resumen" id="resumen-content" role="tabpanel" aria-labelledby="resumen-tab">
+                <h2>Resumen</h2>
+                <p>Las crisis hipertensivas son aumentos severos de la presión arterial que requieren atención inmediata. Esta condición puede manifestarse como urgencia hipertensiva (PA ≥180/120 mmHg sin daño orgánico) o emergencia hipertensiva (con daño en órganos diana). El manejo adecuado es crucial para prevenir complicaciones cardiovasculares, cerebrovasculares y renales.</p>
+                <p>La prevalencia de crisis hipertensivas ha aumentado en los últimos años, siendo responsable del 1-3% de todas las consultas en servicios de urgencias. El reconocimiento temprano y el tratamiento apropiado son fundamentales para mejorar el pronóstico del paciente.</p>
             </div>
-        </section>
-
-        <section id="recursos" class="animate-on-scroll">
-            <h2>Recursos Educativos</h2>
-            <p>Comparto estos materiales con la esperanza de que sean útiles para tu práctica docente. Todos han sido creados y probados en contextos reales de enseñanza.</p>
-            <div id="lista-recursos">
+            
+            <div class="tab-content" data-content="conceptos" id="conceptos-content" role="tabpanel" aria-labelledby="conceptos-tab">
+                <h2>Conceptos Clave</h2>
                 <ul>
-                    <li class="animate__animated" data-animation="animate__fadeInLeft"><i class="fas fa-gamepad"></i> <strong>Guía de Gamificación en el Aula</strong> - Estrategias para incorporar elementos de juego que motiven a tus estudiantes.</li>
-                    <li class="animate__animated" data-animation="animate__fadeInLeft"><i class="fas fa-users"></i> <strong>Estrategias de Aprendizaje Colaborativo</strong> - Técnicas efectivas para promover el trabajo en equipo.</li>
-                    <li class="animate__animated" data-animation="animate__fadeInLeft"><i class="fas fa-laptop"></i> <strong>Herramientas Digitales para Educadores</strong> - Una selección de aplicaciones gratuitas que pueden transformar tu enseñanza.</li>
-                    <li class="animate__animated" data-animation="animate__fadeInLeft"><i class="fas fa-brain"></i> <strong>Actividades para Desarrollar el Pensamiento Crítico</strong> - Ejercicios prácticos para todas las edades.</li>
-                    <li class="animate__animated" data-animation="animate__fadeInLeft"><i class="fas fa-chart-line"></i> <strong>Plantillas de Evaluación Formativa</strong> - Recursos para monitorear el progreso de manera efectiva.</li>
+                    <li><strong>Crisis Hipertensiva:</strong> Elevación severa de la presión arterial (≥180/120 mmHg)</li>
+                    <li><strong>Urgencia Hipertensiva:</strong> PA elevada sin daño orgánico agudo</li>
+                    <li><strong>Emergencia Hipertensiva:</strong> PA elevada con daño en órganos diana</li>
+                    <li><strong>Órganos Diana:</strong> Corazón, cerebro, riñones, ojos, grandes vasos</li>
                 </ul>
             </div>
+            
+            <div class="tab-content" data-content="cuadro_clinico" id="cuadro-clinico-content" role="tabpanel" aria-labelledby="cuadro-clinico-tab">
+                <h2>Cuadro Clínico</h2>
+                <h3>Síntomas Principales:</h3>
+                <ul>
+                    <li>Cefalea intensa (occipital o frontal)</li>
+                    <li>Mareos y vértigo</li>
+                    <li>Disnea de esfuerzo o reposo</li>
+                    <li>Dolor torácico</li>
+                    <li>Alteraciones visuales</li>
+                    <li>Náuseas y vómitos</li>
+                    <li>Epistaxis</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" data-content="diagnostico" id="diagnostico-content" role="tabpanel" aria-labelledby="diagnostico-tab">
+                <h2>Diagnóstico</h2>
+                <h3>Criterios Diagnósticos:</h3>
+                <ol>
+                    <li>Presión arterial ≥180/120 mmHg (confirmada en múltiples tomas)</li>
+                    <li>Evaluación de daño en órganos diana</li>
+                    <li>Historia clínica detallada</li>
+                    <li>Examen físico completo</li>
+                </ol>
+                <h3>Estudios Complementarios:</h3>
+                <ul>
+                    <li>ECG de 12 derivaciones</li>
+                    <li>Radiografía de tórax</li>
+                    <li>Análisis de orina</li>
+                    <li>Química sanguínea completa</li>
+                    <li>Fondo de ojo</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" data-content="diagnostico_diferencial" id="diagnostico-diferencial-content" role="tabpanel" aria-labelledby="diagnostico-diferencial-tab">
+                <h2>Diagnóstico Diferencial</h2>
+                <ul>
+                    <li>Síndrome coronario agudo</li>
+                    <li>Accidente cerebrovascular</li>
+                    <li>Edema pulmonar agudo</li>
+                    <li>Encefalopatía hipertensiva</li>
+                    <li>Disección aórtica</li>
+                    <li>Preeclampsia/eclampsia</li>
+                    <li>Síndrome serotoninérgico</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" data-content="ejemplos" id="ejemplos-content" role="tabpanel" aria-labelledby="ejemplos-tab">
+                <h2>Ejemplos Clínicos</h2>
+                <div class="blog-post">
+                    <h3>Caso 2: Emergencia Hipertensiva</h3>
+                    <p>Mujer de 45 años con PA 210/130 mmHg, disnea severa, edema pulmonar en radiografía de tórax y elevación de troponinas.</p>
+                </div>
+            </div>
+            
+            <div class="tab-content" data-content="escalas" id="escalas-content" role="tabpanel" aria-labelledby="escalas-tab">
+                <h2>Escalas Diagnósticas</h2>
+                <h3>Escala de Glasgow (deterioro neurológico):</h3>
+                <ul>
+                    <li>15 puntos: Normal</li>
+                    <li>13-14 puntos: Deterioro leve</li>
+                    <li>9-12 puntos: Deterioro moderado</li>
+                    <li>&lt;9 puntos: Deterioro severo</li>
+                </ul>
+                <h3>Clasificación de Keith-Wagener (retinopatía):</h3>
+                <ul>
+                    <li>Grado I: Estrechamiento arteriolar</li>
+                    <li>Grado II: Cruces arteriovenosos</li>
+                    <li>Grado III: Hemorragias y exudados</li>
+                    <li>Grado IV: Papiledema</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" data-content="exploracion" id="exploracion-content" role="tabpanel" aria-labelledby="exploracion-tab">
+                <h2>Exploración Física</h2>
+                <h3>Puntos Clave:</h3>
+                <ul>
+                    <li><strong>Signos vitales:</strong> PA en ambos brazos, frecuencia cardíaca, frecuencia respiratoria</li>
+                    <li><strong>Cardiovascular:</strong> Auscultación cardíaca, pulsos periféricos, soplos</li>
+                    <li><strong>Pulmonar:</strong> Auscultación pulmonar, signos de congestión</li>
+                    <li><strong>Neurológico:</strong> Estado mental, déficits focales, reflejos</li>
+                    <li><strong>Oftalmológico:</strong> Fondo de ojo, agudeza visual</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" data-content="reflexiones" id="reflexiones-content" role="tabpanel" aria-labelledby="reflexiones-tab">
+                <h2>Reflexiones</h2>
+                <p>El manejo de las crisis hipertensivas requiere un equilibrio cuidadoso entre la reducción efectiva de la presión arterial y la prevención de hipoperfusión orgánica. La educación del paciente sobre la adherencia al tratamiento antihipertensivo es fundamental para prevenir futuras crisis.</p>
+                <p>Como educadores en salud, debemos enfatizar la importancia de la prevención primaria y el control regular de la presión arterial en nuestros pacientes y comunidades.</p>
+            </div>
+        </div>
+
+        <!-- Secciones principales -->
+        <section id="about" class="section">
+            <h2>Sobre Mí</h2>
+            <p>Soy un maestro comprometido con la educación, apasionado por inspirar y transformar vidas a través del aprendizaje. Mi objetivo es crear experiencias educativas significativas que despierten la curiosidad y el amor por el conocimiento.</p>
+            <p>Con más de 10 años de experiencia en el ámbito educativo, he trabajado en diversos niveles y contextos, lo que me ha permitido desarrollar una visión amplia y flexible de la enseñanza.</p>
         </section>
 
-        <section id="contact" class="animate-on-scroll">
+        <section id="blog" class="section">
+            <h2>Mis Publicaciones</h2>
+            <div id="blogPosts">
+                <article class="blog-post" onclick="expandPost(this)">
+                    <h3>Tecnología en el Aula: Oportunidades y Desafíos</h3>
+                    <p class="date">15 de marzo de 2024</p>
+                    <p>Explorando cómo las herramientas digitales pueden transformar la experiencia de aprendizaje y los retos que enfrentamos en su implementación.</p>
+                    <a href="#" class="read-more" onclick="event.preventDefault()">Leer más</a>
+                </article>
+                <article class="blog-post" onclick="expandPost(this)">
+                    <h3>Construyendo Relaciones Significativas en el Entorno Educativo</h3>
+                    <p class="date">1 de marzo de 2024</p>
+                    <p>La importancia de crear un ambiente de confianza y apoyo en el entorno educativo para potenciar el aprendizaje.</p>
+                    <a href="#" class="read-more" onclick="event.preventDefault()">Leer más</a>
+                </article>
+                <article class="blog-post" onclick="expandPost(this)">
+                    <h3>Metodologías Activas: Transformando la Educación</h3>
+                    <p class="date">20 de febrero de 2024</p>
+                    <p>Análisis de las metodologías activas de aprendizaje y su impacto en la motivación estudiantil.</p>
+                    <a href="#" class="read-more" onclick="event.preventDefault()">Leer más</a>
+                </article>
+            </div>
+        </section>
+
+        <section id="recursos" class="section">
+            <h2>Recursos Educativos</h2>
+            <ul class="resource-list" id="resourceList">
+                <li class="resource-item" onclick="downloadResource(this, 'gamificacion')">
+                    <i class="fas fa-gamepad" aria-hidden="true"></i>
+                    <strong>Guía de Gamificación en el Aula</strong> - Estrategias para incorporar elementos de juego en el proceso educativo
+                </li>
+                <li class="resource-item" onclick="downloadResource(this, 'colaborativo')">
+                    <i class="fas fa-users" aria-hidden="true"></i>
+                    <strong>Estrategias de Aprendizaje Colaborativo</strong> - Técnicas efectivas para promover el trabajo en equipo
+                </li>
+                <li class="resource-item" onclick="downloadResource(this, 'herramientas')">
+                    <i class="fas fa-laptop" aria-hidden="true"></i>
+                    <strong>Herramientas Digitales para Educadores</strong> - Aplicaciones gratuitas que transforman la enseñanza
+                </li>
+                <li class="resource-item" onclick="downloadResource(this, 'evaluacion')">
+                    <i class="fas fa-chart-line" aria-hidden="true"></i>
+                    <strong>Métodos de Evaluación Innovadores</strong> - Nuevas formas de evaluar el progreso estudiantil
+                </li>
+            </ul>
+        </section>
+
+        <section id="contact" class="section">
             <h2>Contáctame</h2>
-            <p>¿Tienes alguna pregunta, sugerencia o te gustaría colaborar? ¡No dudes en escribirme!</p>
-            <form id="contact-form">
-                <input type="text" id="nombre" placeholder="Nombre" required class="animate__animated" data-animation="animate__fadeIn">
-                <input type="email" id="email" placeholder="Correo Electrónico" required class="animate__animated" data-animation="animate__fadeIn">
-                <textarea id="mensaje" placeholder="Tu Mensaje" rows="5" required class="animate__animated" data-animation="animate__fadeIn"></textarea>
-                <button type="submit" class="animate__animated" data-animation="animate__fadeIn"><i class="fas fa-paper-plane"></i> Enviar Mensaje</button>
+            <form class="contact-form" id="contactForm" novalidate>
+                <div class="form-field">
+                    <input type="text" class="form-input" id="nombre" name="nombre" placeholder="Nombre completo" required minlength="2" maxlength="50">
+                    <span class="error-message" id="nombre-error"></span>
+                </div>
+                <div class="form-field">
+                    <input type="email" class="form-input" id="email" name="email" placeholder="Correo Electrónico" required>
+                    <span class="error-message" id="email-error"></span>
+                </div>
+                <div class="form-field">
+                    <input type="text" class="form-input" id="asunto" name="asunto" placeholder="Asunto del mensaje" required maxlength="100">
+                    <span class="error-message" id="asunto-error"></span>
+                </div>
+                <div class="form-field">
+                    <textarea class="form-textarea" id="mensaje" name="mensaje" placeholder="Tu Mensaje" rows="5" required minlength="10" maxlength="500"></textarea>
+                    <span class="error-message" id="mensaje-error"></span>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane" aria-hidden="true"></i> 
+                    <span>Enviar Mensaje</span>
+                </button>
             </form>
         </section>
 
-        <footer class="animate-on-scroll">
-            <p>© 2024 Inspirando Mentes - Todos los derechos reservados</p>
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Inspirando Mentes - Todos los derechos reservados</p>
             <p>Email: <a href="mailto:contacto@inspirandomentes.com">contacto@inspirandomentes.com</a></p>
-            <div style="margin-top: 15px;">
-                <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
-                <a href="#" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
-                <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
-                <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a>
+            <div class="social-links">
+                <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+                <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
             </div>
         </footer>
-    </div>
+    </main>
 
-    <!-- Botón flotante para volver arriba -->
-    <div class="back-to-top">
-        <i class="fas fa-arrow-up"></i>
+    <!-- Botón flotante -->
+    <button class="back-to-top" id="backToTop" aria-label="Volver al inicio">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </button>
+
+    <!-- Notificación -->
+    <div class="notification" id="notification" role="alert" aria-live="polite">
+        <i class="fas fa-check-circle" aria-hidden="true"></i>
+        <span id="notificationText"></span>
     </div>
 
     <script>
-        // Esperamos a que el DOM esté completamente cargado
-        document.addEventListener('DOMContentLoaded', () => {
-            // Referencias a elementos del DOM
-            const pantallaInicio = document.getElementById('pantalla-inicio');
-            const contenido = document.getElementById('contenido');
-            const entrarBtn = document.getElementById('entrar-btn');
-            const profilePic = document.getElementById('profilePic');
-            const uploadImage = document.getElementById('uploadImage');
-            const contactForm = document.getElementById('contact-form');
+        // Variables globales
+        let currentTab = 'resumen';
+        let isLoading = false;
+        
+        // Configuración de la aplicación
+        const config = {
+            animationDuration: 300,
+            notificationDuration: 3000,
+            scrollThreshold: 200
+        };
+
+        // Utility functions
+        const utils = {
+            debounce: (func, wait) => {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            },
+            
+            throttle: (func, limit) => {
+                let inThrottle;
+                return function() {
+                    const args = arguments;
+                    const context = this;
+                    if (!inThrottle) {
+                        func.apply(context, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                }
+            },
+            
+            validateEmail: (email) => {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            },
+            
+            sanitizeInput: (input) => {
+                const div = document.createElement('div');
+                div.textContent = input;
+                return div.innerHTML;
+            }
+        };
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            setupEventListeners();
+            setupIntersectionObserver();
+            setupScrollEvents();
+            
+            // Mostrar pantalla de inicio por 2 segundos
+            setTimeout(() => {
+                hideSplashScreen();
+            }, 2000);
+        }
+
+        function setupEventListeners() {
+            // Botón de entrada
+            const enterBtn = document.getElementById('enterBtn');
+            enterBtn?.addEventListener('click', hideSplashScreen);
+
+            // Navegación por tabs
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', (e) => switchTab(e.target.dataset.tab));
+                button.addEventListener('keydown', handleTabKeyNavigation);
+            });
+
+            // Navegación suave
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', handleSmoothScroll);
+            });
+
+            // Formulario de contacto
+            const contactForm = document.getElementById('contactForm');
+            contactForm?.addEventListener('submit', handleFormSubmit);
+            
+            // Validación en tiempo real
+            const formInputs = contactForm?.querySelectorAll('.form-input, .form-textarea');
+            formInputs?.forEach(input => {
+                input.addEventListener('blur', validateField);
+                input.addEventListener('input', clearFieldError);
+            });
+
+            // Subida de imagen de perfil
+            const profileImage = document.getElementById('profileImage');
+            const imageUpload = document.getElementById('imageUpload');
+            
+            profileImage?.addEventListener('click', () => imageUpload?.click());
+            profileImage?.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    imageUpload?.click();
+                }
+            });
+            
+            imageUpload?.addEventListener('change', handleImageUpload);
+
+            // Botón volver al inicio
+            const backToTopBtn = document.getElementById('backToTop');
+            backToTopBtn?.addEventListener('click', scrollToTop);
+        }
+
+        function setupIntersectionObserver() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Animar recursos con delay
+                        if (entry.target.classList.contains('resource-item')) {
+                            const delay = Array.from(entry.target.parentNode.children).indexOf(entry.target) * 100;
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, delay);
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observar secciones y elementos animables
+            const elementsToObserve = document.querySelectorAll('.section, .resource-item');
+            elementsToObserve.forEach(el => observer.observe(el));
+        }
+
+        function setupScrollEvents() {
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            const handleScroll = utils.throttle(() => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Mostrar/ocultar botón volver al inicio
+                if (scrollTop > config.scrollThreshold) {
+                    backToTopBtn?.classList.add('show');
+                } else {
+                    backToTopBtn?.classList.remove('show');
+                }
+            }, 100);
+
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        function hideSplashScreen() {
+            const splashScreen = document.getElementById('splashScreen');
+            const mainContent = document.getElementById('mainContent');
+            
+            splashScreen?.classList.add('hidden');
+            
+            setTimeout(() => {
+                mainContent?.classList.add('visible');
+            }, config.animationDuration);
+        }
+
+        function switchTab(tabName) {
+            if (isLoading) return;
+            
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
-            const navLinks = document.querySelectorAll('nav a');
-            const sections = document.querySelectorAll('.animate-on-scroll');
-            const formElements = document.querySelectorAll('#contact-form .animate__animated');
-            const resourceItems = document.querySelectorAll('#lista-recursos .animate__animated');
             
-            // Función para iniciar animaciones basadas en scroll
-            function checkScroll() {
-                const triggerBottom = window.innerHeight * 0.8;
-                
-                sections.forEach(section => {
-                    const sectionTop = section.getBoundingClientRect().top;
-                    
-                    if (sectionTop < triggerBottom) {
-                        section.classList.add('animated');
-                        
-                        // Si es la sección de contacto, animar los elementos del formulario
-                        if (section.id === 'contact') {
-                            formElements.forEach((element, index) => {
-                                setTimeout(() => {
-                                    element.classList.add(element.getAttribute('data-animation'));
-                                }, index * 200);
-                            });
-                        }
-                        
-                        // Si es la sección de recursos, animar los elementos de la lista
-                        if (section.id === 'recursos') {
-                            resourceItems.forEach((element, index) => {
-                                setTimeout(() => {
-                                    element.classList.add(element.getAttribute('data-animation'));
-                                }, index * 150);
-                            });
-                        }
-                    }
-                });
-            }
-            
-            // Configurar el evento de scroll para activar las animaciones
-            window.addEventListener('scroll', checkScroll);
-            
-            // Gestión de la pantalla de inicio
-            entrarBtn.addEventListener('click', () => {
-                pantallaInicio.style.opacity = '0';
-                setTimeout(() => {
-                    pantallaInicio.style.display = 'none';
-                    contenido.style.display = 'block';
-                    // Animación de aparición del contenido
-                    setTimeout(() => {
-                        contenido.style.opacity = '1';
-                    }, 50);
-                }, 800);
-            });
-            
-            // Gestionar la carga de la imagen de perfil
-            profilePic.addEventListener('click', () => {
-                uploadImage.click();
-            });
-            
-            uploadImage.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        profilePic.src = e.target.result;
-                        // Guardar la imagen en localStorage
-                        try {
-                            localStorage.setItem('profileImage', e.target.result);
-                        } catch (error) {
-                            console.warn('No se pudo guardar la imagen en localStorage:', error);
-                            showNotification('No se pudo guardar la imagen de perfil', 'error');
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-            
-            // Recuperar imagen guardada si existe
-            try {
-                const savedImage = localStorage.getItem('profileImage');
-                if (savedImage) {
-                    profilePic.src = savedImage;
-                }
-            } catch (error) {
-                console.warn('No se pudo recuperar la imagen del localStorage:', error);
-            }
-            
-            // Sistema de pestañas
+            // Actualizar botones
             tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const tabId = button.getAttribute('data-tab');
-                    
-                    // Desactivar todas las pestañas
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    tabContents.forEach(tab => tab.classList.remove('active'));
-                    
-                    // Activar la pestaña seleccionada
-                    button.classList.add('active');
-                    document.getElementById(tabId).classList.add('active');
-                });
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
             });
             
-            // Navegación suave
-            navLinks.forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
+            // Actualizar contenidos
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Activar el tab seleccionado
+            const activeButton = document.querySelector(`[data-tab="${tabName}"]`);
+            const activeContent = document.querySelector(`[data-content="${tabName}"]`);
+            
+            if (activeButton && activeContent) {
+                activeButton.classList.add('active');
+                activeButton.setAttribute('aria-selected', 'true');
+                activeContent.classList.add('active');
+                currentTab = tabName;
+            }
+        }
+
+        function handleTabKeyNavigation(e) {
+            const tabs = Array.from(document.querySelectorAll('.tab-button'));
+            const currentIndex = tabs.indexOf(e.target);
+            
+            switch(e.key) {
+                case 'ArrowLeft':
                     e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                        
-                        window.scrollTo({
-                            top: offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
+                    const prevIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+                    tabs[prevIndex].focus();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    const nextIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+                    tabs[nextIndex].focus();
+                    break;
+                case 'Enter':
+                case ' ':
+                    e.preventDefault();
+                    e.target.click();
+                    break;
+            }
+        }
+
+        function handleSmoothScroll(e) {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
-            });
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
             
-            // Validación y envío del formulario
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const nombre = document.getElementById('nombre').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const mensaje = document.getElementById('mensaje').value.trim();
-                
-                // Validación básica
-                if (nombre === '' || email === '' || mensaje === '') {
-                    showNotification('Por favor completa todos los campos', 'error');
-                    return;
-                }
-                
-                // Validación de email
-                if (!isValidEmail(email)) {
-                    showNotification('Por favor ingresa un correo electrónico válido', 'error');
-                    return;
-                }
-                
-                // Aquí iría el código para enviar el formulario a un servidor
-                // Por ahora solo simularemos el envío
-                
-                showNotification('¡Gracias por tu mensaje! Te responderé pronto.', 'success');
-                this.reset();
-            });
+            if (isLoading) return;
             
-            // Función para validar email
-            function isValidEmail(email) {
-                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return regex.test(email);
+            const form = e.target;
+            const formData = new FormData(form);
+            
+            // Validar formulario
+            if (!validateForm(form)) {
+                showNotification('Por favor, corrige los errores en el formulario.', 'error');
+                return;
             }
             
-            // Función para mostrar notificaciones
-            function showNotification(message, type = 'info') {
-                // Eliminar notificaciones previas
-                const existingNotifications = document.querySelectorAll('.notification');
-                existingNotifications.forEach(notification => {
-                    notification.remove();
-                });
-                
-                // Crear elemento de notificación
-                const notification = document.createElement('div');
+            // Simular envío del formulario
+            setLoadingState(true);
+            
+            // Simular llamada a API
+            setTimeout(() => {
+                setLoadingState(false);
+                showNotification('¡Mensaje enviado correctamente! Te responderé pronto.', 'success');
+                form.reset();
+                clearAllFieldErrors();
+            }, 2000);
+        }
+
+        function validateForm(form) {
+            const inputs = form.querySelectorAll('.form-input, .form-textarea');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!validateField({ target: input })) {
+                    isValid = false;
+                }
+            });
+            
+            return isValid;
+        }
+
+        function validateField(e) {
+            const field = e.target;
+            const value = field.value.trim();
+            const fieldName = field.name;
+            let isValid = true;
+            let errorMessage = '';
+            
+            // Validaciones específicas
+            switch(fieldName) {
+                case 'nombre':
+                    if (!value) {
+                        errorMessage = 'El nombre es obligatorio';
+                        isValid = false;
+                    } else if (value.length < 2) {
+                        errorMessage = 'El nombre debe tener al menos 2 caracteres';
+                        isValid = false;
+                    }
+                    break;
+                    
+                case 'email':
+                    if (!value) {
+                        errorMessage = 'El email es obligatorio';
+                        isValid = false;
+                    } else if (!utils.validateEmail(value)) {
+                        errorMessage = 'Ingresa un email válido';
+                        isValid = false;
+                    }
+                    break;
+                    
+                case 'asunto':
+                    if (!value) {
+                        errorMessage = 'El asunto es obligatorio';
+                        isValid = false;
+                    }
+                    break;
+                    
+                case 'mensaje':
+                    if (!value) {
+                        errorMessage = 'El mensaje es obligatorio';
+                        isValid = false;
+                    } else if (value.length < 10) {
+                        errorMessage = 'El mensaje debe tener al menos 10 caracteres';
+                        isValid = false;
+                    }
+                    break;
+            }
+            
+            // Mostrar/ocultar error
+            const errorElement = document.getElementById(`${fieldName}-error`);
+            if (errorElement) {
+                errorElement.textContent = errorMessage;
+                errorElement.style.display = errorMessage ? 'block' : 'none';
+            }
+            
+            // Agregar/quitar clase de error
+            field.classList.toggle('error', !isValid);
+            
+            return isValid;
+        }
+
+        function clearFieldError(e) {
+            const field = e.target;
+            const fieldName = field.name;
+            const errorElement = document.getElementById(`${fieldName}-error`);
+            
+            if (errorElement) {
+                errorElement.style.display = 'none';
+            }
+            field.classList.remove('error');
+        }
+
+        function clearAllFieldErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            const inputElements = document.querySelectorAll('.form-input, .form-textarea');
+            
+            errorElements.forEach(el => el.style.display = 'none');
+            inputElements.forEach(el => el.classList.remove('error'));
+        }
+
+        function setLoadingState(loading) {
+            isLoading = loading;
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn?.querySelector('span');
+            
+            if (loading) {
+                submitBtn?.setAttribute('disabled', 'true');
+                if (btnText) btnText.textContent = 'Enviando...';
+                submitBtn?.classList.add('loading');
+            } else {
+                submitBtn?.removeAttribute('disabled');
+                if (btnText) btnText.textContent = 'Enviar Mensaje';
+                submitBtn?.classList.remove('loading');
+            }
+        }
+
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // Validar tipo de archivo
+            if (!file.type.startsWith('image/')) {
+                showNotification('Por favor, selecciona una imagen válida.', 'error');
+                return;
+            }
+            
+            // Validar tamaño (máximo 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showNotification('La imagen debe ser menor a 5MB.', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const profileImage = document.getElementById('profileImage');
+                if (profileImage) {
+                    profileImage.style.backgroundImage = `url(${e.target.result})`;
+                    showNotification('Imagen de perfil actualizada correctamente.', 'success');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function expandPost(postElement) {
+            const title = postElement.querySelector('h3').textContent;
+            showNotification(`Expandiendo: ${title}`, 'info');
+            
+            // Aquí podrías implementar un modal o navegación a página completa
+            console.log('Expandir post:', title);
+        }
+
+        function downloadResource(resourceElement, resourceType) {
+            const title = resourceElement.querySelector('strong').textContent;
+            showNotification(`Descargando: ${title}`, 'info');
+            
+            // Simular descarga
+            setTimeout(() => {
+                showNotification('Recurso descargado correctamente.', 'success');
+            }, 1000);
+            
+            console.log('Descargar recurso:', resourceType);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            if (notification && notificationText) {
+                notificationText.textContent = message;
                 notification.className = `notification ${type}`;
-                notification.textContent = message;
                 
-                // Añadir al DOM
-                document.body.appendChild(notification);
+                // Mostrar notificación
+                notification.classList.add('show');
                 
-                // Animar entrada
-                setTimeout(() => {
-                    notification.classList.add('show');
-                }, 10);
-                
-                // Remover después de 3 segundos
+                // Ocultar después del tiempo configurado
                 setTimeout(() => {
                     notification.classList.remove('show');
-                    
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 300);
-                }, 3000);
+                }, config.notificationDuration);
             }
-            
-            // Efecto de hover en los artículos del blog
-            const leerMasLinks = document.querySelectorAll('.leer-mas');
-            leerMasLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    showNotification('Esta funcionalidad estará disponible pronto', 'info');
-                });
-            });
-            
-            // Ejecutar checkScroll una vez para animar elementos en la vista inicial
-            checkScroll();
-            
-            // Configuración inicial de la página
-            contenido.style.opacity = '0';
-            contenido.style.transition = 'opacity 0.5s ease';
+        }
+
+        // Manejo de errores globales
+        window.addEventListener('error', function(e) {
+            console.error('Error detectado:', e.error);
+            showNotification('Ha ocurrido un error inesperado.', 'error');
+        });
+
+        // Manejo de promesas rechazadas
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Promesa rechazada:', e.reason);
+            showNotification('Error de conexión. Inténtalo nuevamente.', 'error');
         });
     </script>
-    </body>
-    </html>
+</body>
+</html> 1: Urgencia Hipertensiva</h3>
+                    <p>Paciente masculino de 55 años con PA 195/125 mmHg, cefalea occipital, sin síntomas neurológicos focales ni alteraciones en el fondo de ojo.</p>
+                </div>
+                <div class="blog-post">
+                    <h3>Caso
