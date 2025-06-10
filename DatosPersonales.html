@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Datos Personales</title>
+  <link rel="stylesheet" href="styleDatosPersonales.css" />
+  <style>
+    .scrollable-form {
+      overflow-y: auto;
+      flex: 1;
+      padding-bottom: 20px;
+    }
+
+    textarea.input-field {
+      resize: none;
+    }
+
+    .scrollable-form::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .scrollable-form::-webkit-scrollbar-thumb {
+      background: #29B6F6;
+      border-radius: 3px;
+    }
+
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0 20px;
+    }
+
+    .step {
+      flex: 1;
+      height: 8px;
+      margin: 0 5px;
+      background-color: #B3E5FC;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .step.active {
+      background-color: #29B6F6;
+    }
+
+    .step:first-child {
+      margin-left: 0;
+    }
+
+    .step:last-child {
+      margin-right: 0;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-container">
+    <div class="content">
+      <!-- ENCABEZADO -->
+      <div class="logo-container">
+        <div class="logo">
+          <div class="clock-hands"></div>
+        </div>
+      </div>
+
+      <h1 class="welcome-title">Datos Personales</h1>
+      <p class="subtitle">Completa la siguiente información</p>
+
+      <!-- BARRA DE PROGRESO -->
+      <div class="progress-bar">
+        <div class="step active"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+      </div>
+
+      <!-- FORMULARIO CON SCROLL -->
+      <div class="scrollable-form">
+        <form action="DatosPersonales2.html" method="get">
+          <div class="form-group">
+            <input type="text" class="input-field" placeholder="No. de Seguro Social" required />
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="input-field" placeholder="Nombre completo" required />
+          </div>
+
+          <div class="form-group">
+            <input type="date" class="input-field" required />
+          </div>
+
+          <div class="form-group">
+            <select class="input-field" required>
+              <option value="">Sexo</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <input type="tel" class="input-field" placeholder="Teléfono" required />
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="input-field" placeholder="Ocupación" required />
+          </div>
+
+          <div class="form-group">
+            <textarea class="input-field" rows="3" placeholder="Dirección" required></textarea>
+          </div>
+
+          <button type="submit" class="login-button">Siguiente</button>
+          <a href="Pantalla.html" class="back-button">⬅️ Volver</a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const content = document.querySelector('.content');
+      const logo = document.querySelector('.logo');
+
+      content.style.opacity = '0';
+      content.style.transform = 'translateY(20px)';
+
+      setTimeout(() => {
+        content.style.transition = 'all 0.6s ease';
+        content.style.opacity = '1';
+        content.style.transform = 'translateY(0)';
+      }, 100);
+
+      logo.addEventListener('mouseenter', function () {
+        this.style.transform = 'scale(1.05) rotate(5deg)';
+      });
+
+      logo.addEventListener('mouseleave', function () {
+        this.style.transform = 'scale(1) rotate(0deg)';
+      });
+
+      const inputs = document.querySelectorAll('.input-field');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function () {
+          this.parentElement.style.transform = 'scale(1.02)';
+        });
+
+        input.addEventListener('blur', function () {
+          this.parentElement.style.transform = 'scale(1)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

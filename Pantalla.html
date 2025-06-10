@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Medicamentos</title>
+    <link rel="stylesheet" href="stylePantalla.css">
+</head>
+<body>
+    <!-- Checkboxes ocultos para controlar la navegación -->
+    <input type="radio" id="main-toggle" name="screen" checked>
+    <input type="radio" id="menu-toggle" name="screen">
+
+    <div class="controls">
+        <label for="main-toggle" class="control-btn">PANTALLA PRINCIPAL</label>
+        <label for="menu-toggle" class="control-btn">BARRA LATERAL</label>
+    </div>
+
+    <div class="phone">
+        <div class="screen">
+            <!-- Pantalla Principal -->
+            <div id="mainScreen" class="main-screen">
+                <div class="status-bar">
+                </div>
+
+                <div class="header">
+                    <label for="menu-toggle" class="menu-btn">☰</label>
+                    <div class="welcome-text">¡Bienvenido!</div>
+                    <div class="profile-icon">👤</div>
+                </div>
+
+                <div class="pills-bg"></div>
+
+                <div class="patient-card">
+                    <div class="patient-title">Paciente</div>
+                    <div class="patient-name">Erika Garcia Fuentes</div>
+                    <div class="patient-details">
+                        <strong>Datos personales</strong><br>
+                        No.Seguro Social:<br>
+                        KJM-263743<br>
+                        Sexo: Mujer<br>
+                        Edad: 24<br>
+                        Otro:
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pantalla de Menú -->
+            <div id="menuScreen" class="menu-screen">
+                <div class="status-bar">
+                </div>
+
+                <div class="menu-profile">
+                    <div class="menu-profile-icon">
+                        <div class="clock-icon">🕐</div>
+                    </div>
+                    <div class="menu-email">Garcia123@gmail.com</div>
+                </div>
+
+                <ul class="menu-options">
+                    <li class="menu-item">
+                        <div class="menu-icon">👤</div>
+                        <div class="menu-text">Perfil</div>
+                    </li>
+                    <li class="menu-item" onclick="location.href='DatosPersonales.html'">
+                        <div class="menu-icon">📋</div>
+                        <div class="menu-text">Datos Personales</div>
+                        
+                    </li>
+                    <li class="menu-item" onclick="location.href='Medicamento.html'">
+                        <div class="menu-icon">💊</div>
+                        <div class="menu-text">Medicamentos</div>
+                        
+                    </li>
+                </ul>
+
+                <div class="logout">
+                    <label for="main-toggle" class="logout-btn">
+                        <div class="menu-icon">🚪</div>
+
+                        <a href="inicioSesion.html" class="register-button">Cerrar sesión</a>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
