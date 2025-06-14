@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Bienvenido!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-container {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .content {
+            padding: 40px 30px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .content.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .clock-hands {
+            width: 30px;
+            height: 30px;
+            position: relative;
+        }
+
+        .clock-hands::before,
+        .clock-hands::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 2px;
+            transform-origin: bottom center;
+        }
+
+        .clock-hands::before {
+            width: 2px;
+            height: 12px;
+            left: 50%;
+            bottom: 50%;
+            margin-left: -1px;
+            animation: rotate-hour 43200s linear infinite;
+        }
+
+        .clock-hands::after {
+            width: 1px;
+            height: 15px;
+            left: 50%;
+            bottom: 50%;
+            margin-left: -0.5px;
+            animation: rotate-minute 3600s linear infinite;
+        }
+
+        @keyframes rotate-hour {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes rotate-minute {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .form-group:focus-within {
+            transform: scale(1.02);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-field::placeholder {
+            color: #adb5bd;
+        }
+
+        .register-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .register-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .register-button:active {
+            transform: translateY(0);
+        }
+
+        .register-button.secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .register-button.secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        form + a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 20px;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        form + a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            padding: 10px;
+            background: #f8d7da;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .success-message {
+            color: #155724;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @media (max-width: 480px) {
+            .phone-container {
+                margin: 10px;
+                border-radius: 20px;
+            }
+            
+            .content {
+                padding: 30px 25px;
+            }
+            
+            .welcome-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="content">
+            
+            <div class="logo-container">
+                <div class="logo">
+                    <div class="clock-hands"></div>
+                </div>
+            </div>
+
+            <h1 class="welcome-title">¡Bienvenido!</h1>
+            <p class="subtitle">Inicia sesión ahora</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="email" id="email" class="input-field" placeholder="Correo electrónico" required>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="password" class="input-field" placeholder="Contraseña" required>
+                </div>
+
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+
+                <button type="submit" class="register-button" id="loginBtn">INICIAR SESIÓN</button>
+                <a href="registro_completo (2).html" class="register-button secondary">Registrarse</a>
+            </form>
+
+            <a href="recuperar_completo.html">¿Olvidaste tu contraseña?</a>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBX5r1sWRjBc100y-UlxIdp1EGChqpCdu4",
+            authDomain: "proyecto-dam1-9de96.firebaseapp.com",
+            projectId: "proyecto-dam1-9de96",
+            storageBucket: "proyecto-dam1-9de96.firebasestorage.app",
+            messagingSenderId: "636356451702",
+            appId: "1:636356451702:web:5f0b308455fac2ab9eae57",
+            measurementId: "G-5SRTPM0Y2L"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const content = document.querySelector('.content');
+
+        // Animación de entrada
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                content.classList.add('loaded');
+            }, 100);
+
+            // Verificar si el usuario ya está autenticado
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    showSuccess('¡Ya tienes una sesión activa! Redirigiendo...');
+                    setTimeout(() => {
+                        window.location.href = 'Pantalla.html';
+                    }, 2000);
+                }
+            });
+        });
+
+        // Función para mostrar errores
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+        }
+
+        // Función para mostrar éxito
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+
+        // Función para ocultar mensajes
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+
+        // Manejar el envío del formulario
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            hideMessages();
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            // Validación básica
+            if (!email || !password) {
+                showError('Por favor, completa todos los campos');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                showError('Por favor, ingresa un correo electrónico válido');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            // Mostrar estado de carga
+            loginBtn.textContent = 'INICIANDO SESIÓN...';
+            loginBtn.classList.add('loading');
+
+            try {
+                // Intentar iniciar sesión con Firebase
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                showSuccess('¡Inicio de sesión exitoso! Redirigiendo...');
+                
+                // Redirigir después de un breve delay
+                setTimeout(() => {
+                    window.location.href = 'Pantalla.html';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error de autenticación:', error);
+                
+                // Manejar diferentes tipos de errores
+                let errorMsg = 'Error al iniciar sesión. Intenta nuevamente.';
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMsg = 'No existe una cuenta con este correo electrónico.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMsg = 'Contraseña incorrecta.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMsg = 'El formato del correo electrónico no es válido.';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMsg = 'Esta cuenta ha sido deshabilitada.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMsg = 'Demasiados intentos fallidos. Intenta más tarde.';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMsg = 'Error de conexión. Verifica tu internet.';
+                        break;
+                    default:
+                        errorMsg = `Error: ${error.message}`;
+                }
+                
+                showError(errorMsg);
+                
+            } finally {
+                // Restaurar el botón
+                loginBtn.textContent = 'INICIAR SESIÓN';
+                loginBtn.classList.remove('loading');
+            }
+        });
+
+        // Función para validar email
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Animaciones de interacción
+        const inputs = document.querySelectorAll('.input-field');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                hideMessages();
+            });
+        });
+    </script>
+</body>
+</html>
