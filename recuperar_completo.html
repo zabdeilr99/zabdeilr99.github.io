@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pill-Time - Recuperar Contraseña</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-container {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen {
+            padding: 0;
+        }
+
+        .content {
+            padding: 40px 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .content.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .app-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            width: 200px;
+            position: relative;
+        }
+
+        .progress-line {
+            height: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            flex: 1;
+            border-radius: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .clock-icon {
+            margin: 0 15px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .clock-icon:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .clock-face {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .clock-hand {
+            position: absolute;
+            width: 1px;
+            height: 8px;
+            background: white;
+            left: 50%;
+            top: 2px;
+            transform-origin: bottom center;
+            margin-left: -0.5px;
+            border-radius: 1px;
+            animation: tick 2s linear infinite;
+        }
+
+        .clock-center {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes tick {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .main-content {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .form {
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .input-group:focus-within {
+            transform: scale(1.02);
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .email-input::placeholder {
+            color: #adb5bd;
+        }
+
+        .send-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .send-button:active {
+            transform: translateY(0);
+        }
+
+        .register-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            color: #667eea;
+            text-decoration: none;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .register-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f8d7da;
+            border-radius: 10px;
+            display: none;
+            border-left: 4px solid #dc3545;
+            text-align: left;
+        }
+
+        .success-message {
+            color: #155724;
+            font-size: 14px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #d4edda;
+            border-radius: 10px;
+            display: none;
+            border-left: 4px solid #28a745;
+            text-align: left;
+        }
+
+        .info-message {
+            color: #0c5460;
+            font-size: 14px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #d1ecf1;
+            border-radius: 10px;
+            display: none;
+            border-left: 4px solid #17a2b8;
+            text-align: left;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .icon-email {
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .recovery-steps {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+            border: 1px solid #e9ecef;
+            display: none;
+        }
+
+        .recovery-steps h3 {
+            color: #495057;
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .recovery-steps ol {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.6;
+            padding-left: 20px;
+        }
+
+        .recovery-steps li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .phone-container {
+                margin: 10px;
+                border-radius: 20px;
+            }
+            
+            .content {
+                padding: 30px 25px;
+            }
+            
+            .app-title {
+                font-size: 2rem;
+            }
+            
+            .title {
+                font-size: 1.6rem;
+            }
+            
+            .progress-bar {
+                width: 160px;
+            }
+            
+            .clock-icon {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="screen">
+            <div class="content">
+                <!-- Logo y título -->
+                <div class="header">
+                    <h1 class="app-title">Pill-Time</h1>
+                    
+                    <div class="icon-container">
+                        <div class="progress-bar">
+                            <div class="progress-line left"></div>
+                            <div class="clock-icon">
+                                <div class="clock-face">
+                                    <div class="clock-hand"></div>
+                                    <div class="clock-center"></div>
+                                </div>
+                            </div>
+                            <div class="progress-line right"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido principal -->
+                <div class="main-content">
+                    <h2 class="title">Recupera tu contraseña</h2>
+                    <p class="subtitle">Introduce tu correo electrónico para recuperar tu contraseña</p>
+
+                    <!-- Mensajes -->
+                    <div class="error-message" id="errorMessage"></div>
+                    <div class="success-message" id="successMessage"></div>
+                    <div class="info-message" id="infoMessage"></div>
+
+                    <!-- Formulario -->
+                    <form id="recoveryForm" class="form">
+                        <div class="input-group">
+                            <input type="email" id="emailInput" class="email-input" placeholder="Correo electrónico" required>
+                        </div>
+
+                        <button type="submit" id="sendButton" class="send-button">Enviar</button>
+                    </form>
+
+                    <!-- Instrucciones de recuperación -->
+                    <div class="recovery-steps" id="recoverySteps">
+                        <h3>📧 Instrucciones enviadas</h3>
+                        <ol>
+                            <li>Revisa tu bandeja de entrada</li>
+                            <li>Busca el email de recuperación de Pill-Time</li>
+                            <li>Haz clic en el enlace del email</li>
+                            <li>Crea tu nueva contraseña</li>
+                            <li>Regresa a iniciar sesión</li>
+                        </ol>
+                        <p style="font-size: 13px; color: #6c757d; margin-top: 12px;">
+                            <strong>Nota:</strong> Si no ves el email, revisa tu carpeta de spam o correo no deseado.
+                        </p>
+                    </div>
+
+                    <!-- Link de regreso -->
+                    <a href="login_page.html" class="register-button">Regresar a inicio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getAuth, sendPasswordResetEmail, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBX5r1sWRjBc100y-UlxIdp1EGChqpCdu4",
+            authDomain: "proyecto-dam1-9de96.firebaseapp.com",
+            projectId: "proyecto-dam1-9de96",
+            storageBucket: "proyecto-dam1-9de96.firebasestorage.app",
+            messagingSenderId: "636356451702",
+            appId: "1:636356451702:web:5f0b308455fac2ab9eae57",
+            measurementId: "G-5SRTPM0Y2L"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+
+        // DOM Elements
+        const recoveryForm = document.getElementById('recoveryForm');
+        const emailInput = document.getElementById('emailInput');
+        const sendButton = document.getElementById('sendButton');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const infoMessage = document.getElementById('infoMessage');
+        const recoverySteps = document.getElementById('recoverySteps');
+        const content = document.querySelector('.content');
+
+        // Estado para controlar reenvíos
+        let emailSent = false;
+        let cooldownTime = 0;
+        let cooldownInterval;
+
+        // Animación de entrada
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                content.classList.add('loaded');
+            }, 100);
+
+            // Verificar si el usuario ya está autenticado
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    showInfo('Ya tienes una sesión activa. Si olvidaste tu contraseña actual, puedes cambiarla desde tu perfil.');
+                }
+            });
+        });
+
+        // Función para mostrar errores
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+            infoMessage.style.display = 'none';
+            errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Función para mostrar éxito
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+            infoMessage.style.display = 'none';
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Función para mostrar información
+        function showInfo(message) {
+            infoMessage.textContent = message;
+            infoMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            infoMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Función para ocultar mensajes
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            infoMessage.style.display = 'none';
+        }
+
+        // Función para validar email
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Función para iniciar cooldown
+        function startCooldown(seconds) {
+            cooldownTime = seconds;
+            sendButton.disabled = true;
+            sendButton.classList.add('loading');
+            
+            cooldownInterval = setInterval(() => {
+                cooldownTime--;
+                sendButton.textContent = `ENVIAR (${cooldownTime}s)`;
+                
+                if (cooldownTime <= 0) {
+                    clearInterval(cooldownInterval);
+                    sendButton.disabled = false;
+                    sendButton.classList.remove('loading');
+                    sendButton.textContent = 'ENVIAR NUEVAMENTE';
+                }
+            }, 1000);
+        }
+
+        // Manejar el envío del formulario
+        recoveryForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            hideMessages();
+            
+            const email = emailInput.value.trim();
+            
+            // Validación básica
+            if (!email) {
+                showError('Por favor, ingresa tu correo electrónico');
+                emailInput.focus();
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                showError('Por favor, ingresa un correo electrónico válido');
+                emailInput.focus();
+                return;
+            }
+
+            // Mostrar estado de carga
+            sendButton.textContent = 'ENVIANDO...';
+            sendButton.classList.add('loading');
+            sendButton.disabled = true;
+
+            try {
+                // Enviar email de recuperación
+                await sendPasswordResetEmail(auth, email);
+                
+                emailSent = true;
+                
+                // Mostrar mensaje de éxito y pasos
+                showSuccess(`📧 Email de recuperación enviado a: ${email}`);
+                recoverySteps.style.display = 'block';
+                
+                // Deshabilitar el formulario temporalmente para evitar spam
+                startCooldown(60); // 60 segundos de cooldown
+                
+                // Scroll suave a las instrucciones
+                setTimeout(() => {
+                    recoverySteps.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 500);
+                
+            } catch (error) {
+                console.error('Error al enviar email de recuperación:', error);
+                
+                // Manejar diferentes tipos de errores
+                let errorMsg = 'Error al enviar el email. Intenta nuevamente.';
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMsg = 'No existe una cuenta registrada con este correo electrónico.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMsg = 'El formato del correo electrónico no es válido.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMsg = 'Demasiados intentos de recuperación. Intenta más tarde.';
+                        startCooldown(300); // 5 minutos de cooldown en caso de spam
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMsg = 'Error de conexión. Verifica tu internet e intenta nuevamente.';
+                        break;
+                    case 'auth/invalid-continue-uri':
+                        errorMsg = 'Error de configuración. Contacta al soporte técnico.';
+                        break;
+                    default:
+                        // Para otros errores, mostrar el mensaje específico
+                        errorMsg = `Error: ${error.message}`;
+                }
+                
+                showError(errorMsg);
+                
+            } finally {
+                // Restaurar el botón si no está en cooldown
+                if (cooldownTime <= 0) {
+                    sendButton.textContent = emailSent ? 'ENVIAR NUEVAMENTE' : 'ENVIAR';
+                    sendButton.classList.remove('loading');
+                    sendButton.disabled = false;
+                }
+            }
+        });
+
+        // Limpiar mensajes cuando el usuario escribe
+        emailInput.addEventListener('input', function() {
+            hideMessages();
+            
+            // Si ya se envió un email y el usuario cambia el email, resetear
+            if (emailSent && this.value.trim() !== this.value.trim()) {
+                recoverySteps.style.display = 'none';
+                if (cooldownTime <= 0) {
+                    sendButton.textContent = 'ENVIAR';
+                }
+            }
+        });
+
+        // Limpiar intervalo al salir de la página
+        window.addEventListener('beforeunload', function() {
+            if (cooldownInterval) {
+                clearInterval(cooldownInterval);
+            }
+        });
+    </script>
+</body>
+</html>

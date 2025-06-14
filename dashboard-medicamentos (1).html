@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Medicamentos - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone {
+            width: 375px;
+            height: 667px;
+            background: #000;
+            border-radius: 25px;
+            padding: 4px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            border-radius: 21px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            height: 44px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-time::before {
+            content: '9:41';
+        }
+
+        .status-battery::before {
+            content: '🔋 100%';
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: #667eea;
+        }
+
+        .menu-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: scale(1.1);
+        }
+
+        .welcome-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            flex: 1;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            height: calc(100vh - 200px);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Pills Background Animation */
+        .pills-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .pills-bg::before {
+            content: '💊';
+            position: absolute;
+            font-size: 30px;
+            animation: float1 6s ease-in-out infinite;
+            top: 20%;
+            left: 10%;
+        }
+
+        .pills-bg::after {
+            content: '🏥';
+            position: absolute;
+            font-size: 25px;
+            animation: float2 8s ease-in-out infinite;
+            top: 60%;
+            right: 15%;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(-180deg); }
+        }
+
+        /* Patient Card */
+        .patient-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .patient-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .patient-title {
+            font-size: 16px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .patient-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .patient-details {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .patient-details strong {
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .action-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            transition: left 0.3s ease;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-profile {
+            padding: 40px 20px 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .menu-profile-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-email {
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .menu-options {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: white;
+            padding-left: 30px;
+        }
+
+        .menu-icon {
+            font-size: 20px;
+            margin-right: 15px;
+            width: 30px;
+        }
+
+        .menu-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            padding: 0 25px;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .phone {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                padding: 0;
+            }
+            
+            .screen {
+                border-radius: 0;
+            }
+            
+            .sidebar {
+                width: 100%;
+                left: -100%;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Error states */
+        .error-message {
+            background: #ffe6e6;
+            color: #d63384;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #d63384;
+        }
+
+        .success-message {
+            background: #d1edff;
+            color: #0066cc;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <div class="sidebar" id="sidebar">
+        <div class="menu-profile">
+            <div class="menu-profile-icon">
+                <div class="clock-icon">🕐</div>
+            </div>
+            <div class="menu-email" id="userEmail">Cargando...</div>
+        </div>
+
+        <ul class="menu-options">
+            <li class="menu-item" onclick="navigateTo('profile')">
+                <div class="menu-icon">👤</div>
+                <div class="menu-text">Perfil</div>
+            </li>
+            <li class="menu-item" onclick="navigateTo('personal-data')">
+                <div class="menu-icon">📋</div>
+                <div class="menu-text">Datos Personales</div>
+            </li>
+            <li class="menu-item" onclick="navigateTo('medications')">
+                <div class="menu-icon">💊</div>
+                <div class="menu-text">Medicamentos</div>
+            </li>
+            <li class="menu-item" onclick="navigateTo('chatbot')">
+                <div class="menu-icon">🤖</div>
+                <div class="menu-text">Chatbot</div>
+            </li>
+        </ul>
+
+        <div class="logout">
+            <a href="#" class="logout-btn" onclick="handleLogout()">
+                <div class="menu-icon">🚪</div>
+                <div class="menu-text">Cerrar sesión</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="phone">
+        <div class="screen">
+            <div class="status-bar">
+                <div class="status-time"></div>
+                <div class="status-battery"></div>
+            </div>
+
+            <div class="header">
+                <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+                <div class="welcome-text">¡Bienvenido!</div>
+                <div class="profile-icon" onclick="toggleSidebar()">👤</div>
+            </div>
+
+            <div class="main-content fade-in">
+                <div class="pills-bg"></div>
+
+                <div class="patient-card">
+                    <div class="patient-title">Paciente</div>
+                    <div class="patient-name" id="patientName">Cargando...</div>
+                    <div class="patient-details" id="patientDetails">
+                        <strong>Datos personales</strong><br>
+                        <span id="patientInfo">Cargando información del paciente...</span>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <div class="action-card" onclick="navigateTo('medications')">
+                        <span class="action-icon">💊</span>
+                        <div class="action-text">Mis Medicamentos</div>
+                    </div>
+                    <div class="action-card" onclick="navigateTo('reminders')">
+                        <span class="action-icon">⏰</span>
+                        <div class="action-text">Recordatorios</div>
+                    </div>
+                    <div class="action-card" onclick="navigateTo('chatbot')">
+                        <span class="action-icon">🤖</span>
+                        <div class="action-text">Asistente</div>
+                    </div>
+                    <div class="action-card" onclick="navigateTo('profile')">
+                        <span class="action-icon">👤</span>
+                        <div class="action-text">Mi Perfil</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBX5r1sWRjBc100y-UlxIdp1EGChqpCdu4",
+            authDomain: "proyecto-dam1-9de96.firebaseapp.com",
+            projectId: "proyecto-dam1-9de96",
+            storageBucket: "proyecto-dam1-9de96.firebasestorage.app",
+            messagingSenderId: "636356451702",
+            appId: "1:636356451702:web:5f0b308455fac2ab9eae57",
+            measurementId: "G-5SRTPM0Y2L"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const loading = document.getElementById('loading');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const userEmail = document.getElementById('userEmail');
+        const patientName = document.getElementById('patientName');
+        const patientDetails = document.getElementById('patientDetails');
+
+        // Global variables
+        let currentUser = null;
+        let userData = null;
+
+        // Show loading
+        function showLoading() {
+            loading.classList.add('active');
+        }
+
+        // Hide loading
+        function hideLoading() {
+            loading.classList.remove('active');
+        }
+
+        // Toggle sidebar
+        window.toggleSidebar = function() {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        }
+
+        // Close sidebar when clicking overlay
+        sidebarOverlay.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        // Navigation function
+        window.navigateTo = function(section) {
+            // Close sidebar first
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+            
+            // Navigate based on section
+            switch(section) {
+                case 'profile':
+                    window.location.href = 'profile_page.html';
+                    break;
+                case 'personal-data':
+                    window.location.href = 'DatosPersonales.html';
+                    break;
+                case 'medications':
+                    window.location.href = 'Medicamento.html';
+                    break;
+                case 'chatbot':
+                    window.location.href = 'chatbot_project.html';
+                    break;
+                case 'reminders':
+                    // Add reminders page or show modal
+                    alert('Función de recordatorios próximamente');
+                    break;
+                default:
+                    console.log('Navegando a:', section);
+            }
+        }
+
+        // Logout function
+        window.handleLogout = async function() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                try {
+                    showLoading();
+                    await signOut(auth);
+                    window.location.href = 'login_page.html';
+                } catch (error) {
+                    console.error('Error al cerrar sesión:', error);
+                    alert('Error al cerrar sesión. Intenta nuevamente.');
+                } finally {
+                    hideLoading();
+                }
+            }
+        }
+
+        // Function to search user data in different document structures
+        async function getUserDataFromFirestore(user) {
+            try {
+                console.log('Buscando datos para usuario:', user.uid, user.email);
+                
+                // Strategy 1: Try to get data from a document with user UID
+                let userDoc = await getDoc(doc(db, 'users', user.uid));
+                
+                if (userDoc.exists()) {
+                    console.log('Datos encontrados en users/', user.uid);
+                    return userDoc.data();
+                }
+
+                // Strategy 2: Try to get data from 'Usuario' collection
+                userDoc = await getDoc(doc(db, 'Usuario', user.uid));
+                
+                if (userDoc.exists()) {
+                    console.log('Datos encontrados en Usuario/', user.uid);
+                    return userDoc.data();
+                }
+
+                // Strategy 3: Search by email in different collections
+                const collections = ['users', 'Usuario', 'pacientes', 'user_profiles'];
+                
+                for (const collectionName of collections) {
+                    try {
+                        const q = query(
+                            collection(db, collectionName), 
+                            where('email', '==', user.email)
+                        );
+                        const querySnapshot = await getDocs(q);
+                        
+                        if (!querySnapshot.empty) {
+                            console.log(`Datos encontrados en ${collectionName} por email`);
+                            return querySnapshot.docs[0].data();
+                        }
+                    } catch (error) {
+                        console.log(`No se pudo buscar en ${collectionName}:`, error.message);
+                    }
+                }
+
+                // Strategy 4: Try with the document ID from Pantalla.html
+                try {
+                    userDoc = await getDoc(doc(db, 'Usuario', 'Pantalla.html'));
+                    if (userDoc.exists()) {
+                        console.log('Datos encontrados en Usuario/Pantalla.html');
+                        return userDoc.data();
+                    }
+                } catch (error) {
+                    console.log('No se encontró documento Pantalla.html:', error.message);
+                }
+
+                console.log('No se encontraron datos del usuario en Firestore');
+                return null;
+
+            } catch (error) {
+                console.error('Error buscando datos del usuario:', error);
+                return null;
+            }
+        }
+
+        // Load user data
+        async function loadUserData(user) {
+            try {
+                // Update email in sidebar
+                userEmail.textContent = user.email;
+
+                // Try to get user data from Firestore
+                userData = await getUserDataFromFirestore(user);
+                
+                if (userData) {
+                    // Display user name
+                    const displayName = userData.name || 
+                                      userData.displayName || 
+                                      userData.nombre || 
+                                      userData.firstName || 
+                                      user.displayName || 
+                                      user.email.split('@')[0];
+                    
+                    patientName.textContent = displayName;
+                    
+                    // Get additional data with fallbacks
+                    const age = userData.age || userData.edad || userData.Edad || 'No especificada';
+                    const gender = userData.gender || userData.sexo || userData.Sexo || 'No especificada';
+                    const socialSecurity = userData.socialSecurity || 
+                                         userData.nss || 
+                                         userData.seguroSocial || 
+                                         userData.numeroSeguro || 
+                                         'No registrado';
+                    
+                    // Update patient details with all available data
+                    patientDetails.innerHTML = `
+                        <strong>Datos personales</strong><br>
+                        No. Seguro Social: ${socialSecurity}<br>
+                        Sexo: ${gender}<br>
+                        Edad: ${age}<br>
+                        Email: ${user.email}
+                    `;
+
+                    console.log('Datos del usuario cargados:', userData);
+
+                } else {
+                    // Use default data if no Firestore document found
+                    const displayName = user.displayName || user.email.split('@')[0];
+                    patientName.textContent = displayName;
+                    
+                    patientDetails.innerHTML = `
+                        <strong>Datos personales</strong><br>
+                        Email: ${user.email}<br>
+                        <br>
+                        <em>Completa tu perfil para ver más información</em>
+                    `;
+                }
+
+                // Store user data globally for other functions to use
+                window.currentUserData = userData;
+                window.currentUser = user;
+
+            } catch (error) {
+                console.error('Error cargando datos del usuario:', error);
+                
+                const displayName = user.displayName || user.email.split('@')[0];
+                patientName.textContent = displayName;
+                
+                patientDetails.innerHTML = `
+                    <strong>Datos personales</strong><br>
+                    Email: ${user.email}<br>
+                    <br>
+                    <div class="error-message">
+                        Error cargando datos. Verifica tu conexión e intenta refrescar la página.
+                    </div>
+                `;
+            }
+        }
+
+        // Function to get user data (can be called from other scripts)
+        window.getCurrentUserData = function() {
+            return {
+                user: currentUser,
+                userData: userData,
+                firestore: db
+            };
+        }
+
+        // Auth state observer
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                console.log('Usuario autenticado:', user.email);
+                await loadUserData(user);
+                hideLoading();
+            } else {
+                // User is signed out, redirect to login
+                console.log('Usuario no autenticado, redirigiendo...');
+                window.location.href = 'login_page.html';
+            }
+        });
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            showLoading();
+            
+            // Update time in status bar
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('es-ES', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                document.querySelector('.status-time').textContent = timeString;
+            }
+            
+            updateTime();
+            setInterval(updateTime, 60000); // Update every minute
+
+            console.log('Dashboard inicializado');
+        });
+
+        // Add some interactivity
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+        });
+
+        // Debug function - can be called from console
+        window.debugUserData = function() {
+            console.log('Current User:', currentUser);
+            console.log('User Data:', userData);
+            console.log('Firestore:', db);
+        }
+    </script>
+</body>
+</html>
