@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botón de Redirección</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        .btn-accent {
+            background: linear-gradient(45deg, #FF6B6B, #FF5252);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Opciones de Redirección</h1>
+    
+    <div class="info">
+        <p><strong>Nota:</strong> Como estamos en un entorno de demostración, estos botones no pueden redirigir realmente a "pantalla.html". En tu proyecto real, funcionarán correctamente.</p>
+    </div>
+
+    <!-- Opción 1: Usando window.location -->
+    <button class="btn btn-primary" onclick="redirectToPage()">
+        🚀 Ir a Pantalla (JavaScript)
+    </button>
+
+    <!-- Opción 2: Usando un enlace -->
+    <a href="pantalla.html" class="btn btn-secondary">
+        🔗 Ir a Pantalla (Enlace)
+    </a>
+
+    <!-- Opción 3: Con confirmación -->
+    <button class="btn btn-accent" onclick="confirmRedirect()">
+        ⚡ Ir a Pantalla (Con confirmación)
+    </button>
+
+    <script>
+        // Función simple de redirección
+        function redirectToPage() {
+            // En un entorno real, esto funcionaría:
+            // window.location.href = 'pantalla.html';
+            
+            // Para demostración:
+            alert('Redirigiendgeo a pantalla.html...\n\nEn tu proyecto real, usa:\nwindow.location.href = "pantalla.html";');
+        }
+
+        // Función con confirmación
+        function confirmRedirect() {
+            if (confirm('¿Estás seguro de que quieres ir a la pantalla?')) {
+                // window.location.href = 'pantalla.html';
+                alert('¡Confirmado! Redirigiendo a pantalla.html...');
+            }
+        }
+
+        // Si quisieras usar meta refresh automático (como mencionaste):
+        function autoRedirect() {
+            // Esto redirigiría automáticamente después de 3 segundos
+            setTimeout(() => {
+                window.location.href = 'pantalla.html';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
