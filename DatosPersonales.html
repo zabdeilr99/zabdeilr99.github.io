@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Datos Personales</title>
+  <link rel="stylesheet" href="styleDatosPersonales.css" />
+  <style>
+    .scrollable-form {
+      overflow-y: auto;
+      flex: 1;
+      padding-bottom: 20px;
+    }
+
+    textarea.input-field {
+      resize: none;
+    }
+
+    .scrollable-form::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .scrollable-form::-webkit-scrollbar-thumb {
+      background: #29B6F6;
+      border-radius: 3px;
+    }
+
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0 20px;
+    }
+
+    .step {
+      flex: 1;
+      height: 8px;
+      margin: 0 5px;
+      background-color: #B3E5FC;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .step.active {
+      background-color: #29B6F6;
+    }
+
+    .step:first-child {
+      margin-left: 0;
+    }
+
+    .step:last-child {
+      margin-right: 0;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      color: #29B6F6;
+    }
+
+    .error-message {
+      display: none;
+      background-color: #ffebee;
+      color: #c62828;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .success-message {
+      display: none;
+      background-color: #e8f5e8;
+      color: #2e7d32;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-container">
+    <div class="content">
+      <!-- ENCABEZADO -->
+      <div class="logo-container">
+        <div class="logo">
+          <div class="clock-hands"></div>
+        </div>
+      </div>
+
+      <h1 class="welcome-title">Datos Personales</h1>
+      <p class="subtitle">Completa la siguiente información</p>
+
+      <!-- BARRA DE PROGRESO -->
+      <div class="progress-bar">
+        <div class="step active"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+        <div class="step"></div>
+      </div>
+
+      <!-- FORMULARIO CON SCROLL -->
+      <div class="scrollable-form">
+        <form id="datosPersonalesForm">
+          <div class="form-group">
+            <input type="text" id="seguroSocial" class="input-field" placeholder="No. de Seguro Social" required />
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="nombreCompleto" class="input-field" placeholder="Nombre completo" required />
+          </div>
+
+          <div class="form-group">
+            <input type="date" id="fechaNacimiento" class="input-field" required />
+          </div>
+
+          <div class="form-group">
+            <select id="sexo" class="input-field" required>
+              <option value="">Sexo</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <input type="tel" id="telefono" class="input-field" placeholder="Teléfono" required />
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="ocupacion" class="input-field" placeholder="Ocupación" required />
+          </div>
+
+          <div class="form-group">
+            <textarea id="direccion" class="input-field" rows="3" placeholder="Dirección" required></textarea>
+          </div>
+
+          <div class="loading">Guardando datos...</div>
+          <div class="error-message"></div>
+          <div class="success-message"></div>
+
+          <button type="submit" class="login-button">Siguiente</button>
+          <a href="Pantalla.html" class="back-button">⬅️ Volver</a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBX5r1sWRjBc100y-UlxIdp1EGChqpCdu4",
+      authDomain: "proyecto-dam1-9de96.firebaseapp.com",
+      databaseURL: "https://proyecto-dam1-9de96-default-rtdb.firebaseio.com",
+      projectId: "proyecto-dam1-9de96",
+      storageBucket: "proyecto-dam1-9de96.firebasestorage.app",
+      messagingSenderId: "636356451702",
+      appId: "1:636356451702:web:5f0b308455fac2ab9eae57",
+      measurementId: "G-5SRTPM0Y2L"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const analytics = getAnalytics(app);
+
+    // Generar ID único para el usuario
+    function generateUserId() {
+      let userId = localStorage.getItem('currentUserId');
+      if (!userId) {
+        userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('currentUserId', userId);
+      }
+      return userId;
+    }
+
+    // Cargar datos existentes si los hay
+    window.addEventListener('DOMContentLoaded', async function() {
+      const userId = generateUserId();
+      try {
+        const snapshot = await get(ref(database, `usuarios/${userId}/datosPersonales`));
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          document.getElementById('seguroSocial').value = data.seguroSocial || '';
+          document.getElementById('nombreCompleto').value = data.nombreCompleto || '';
+          document.getElementById('fechaNacimiento').value = data.fechaNacimiento || '';
+          document.getElementById('sexo').value = data.sexo || '';
+          document.getElementById('telefono').value = data.telefono || '';
+          document.getElementById('ocupacion').value = data.ocupacion || '';
+          document.getElementById('direccion').value = data.direccion || '';
+        }
+      } catch (error) {
+        console.error('Error al cargar datos:', error);
+      }
+    });
+
+    // Manejar envío del formulario
+    document.getElementById('datosPersonalesForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const loading = document.querySelector('.loading');
+      const errorMessage = document.querySelector('.error-message');
+      const successMessage = document.querySelector('.success-message');
+      
+      // Ocultar mensajes previos
+      loading.style.display = 'none';
+      errorMessage.style.display = 'none';
+      successMessage.style.display = 'none';
+      
+      // Mostrar loading
+      loading.style.display = 'block';
+      
+      const userId = generateUserId();
+      const datosPersonales = {
+        seguroSocial: document.getElementById('seguroSocial').value,
+        nombreCompleto: document.getElementById('nombreCompleto').value,
+        fechaNacimiento: document.getElementById('fechaNacimiento').value,
+        sexo: document.getElementById('sexo').value,
+        telefono: document.getElementById('telefono').value,
+        ocupacion: document.getElementById('ocupacion').value,
+        direccion: document.getElementById('direccion').value,
+        fechaCreacion: new Date().toISOString(),
+        paso: 1
+      };
+
+      try {
+        await set(ref(database, `usuarios/${userId}/datosPersonales`), datosPersonales);
+        await set(ref(database, `usuarios/${userId}/progreso`), { pasoActual: 1, completado: false });
+        
+        loading.style.display = 'none';
+        successMessage.textContent = 'Datos guardados correctamente';
+        successMessage.style.display = 'block';
+        
+        // Redirigir después de un breve delay
+        setTimeout(() => {
+          window.location.href = 'DatosPersonales2.html';
+        }, 1000);
+        
+      } catch (error) {
+        loading.style.display = 'none';
+        errorMessage.textContent = 'Error al guardar los datos. Inténtalo de nuevo.';
+        errorMessage.style.display = 'block';
+        console.error('Error:', error);
+      }
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const content = document.querySelector('.content');
+      const logo = document.querySelector('.logo');
+
+      content.style.opacity = '0';
+      content.style.transform = 'translateY(20px)';
+
+      setTimeout(() => {
+        content.style.transition = 'all 0.6s ease';
+        content.style.opacity = '1';
+        content.style.transform = 'translateY(0)';
+      }, 100);
+
+      logo.addEventListener('mouseenter', function () {
+        this.style.transform = 'scale(1.05) rotate(5deg)';
+      });
+
+      logo.addEventListener('mouseleave', function () {
+        this.style.transform = 'scale(1) rotate(0deg)';
+      });
+
+      const inputs = document.querySelectorAll('.input-field');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function () {
+          this.parentElement.style.transform = 'scale(1.02)';
+        });
+
+        input.addEventListener('blur', function () {
+          this.parentElement.style.transform = 'scale(1)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
