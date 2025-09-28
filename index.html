@@ -1,135 +1,332 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Botón de Redirección</title>   
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            gap: 20px;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            min-width: 200px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(45deg, #2196F3, #1976D2);
-            color: white;
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
-        }
-
-        .btn-accent {
-            background: linear-gradient(45deg, #FF6B6B, #FF5252);
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .btn-accent:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-        }
-
-        h1 {
-            color: white;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .info {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 10px;
-            color: white;
-            text-align: center;
-            max-width: 600px;
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Opciones de Redirección</h1>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="800" height="400" viewBox="0 0 800 400" role="img" 
+     aria-label="Logo de Zabdiel Córdova Alejandro, Ingeniero en Sistemas Computacionales">
+  <defs>
+    <!-- Gradientes dinámicos -->
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d5a8a;stop-opacity:1">
+        <animate attributeName="stop-color" values="#0d5a8a;#1e7bb8;#4a9eff;#0d5a8a" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#0b486b;stop-opacity:1">
+        <animate attributeName="stop-color" values="#0b486b;#335f75;#5a7a8a;#0b486b" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
     
-    <div class="info">
-        <p><strong>Nota:</strong> Como estamos en un entorno de demostración, estos botones no pueden redirigir realmente a "pantalla.html". En tu proyecto real, funcionarán correctamente.</p>
-    </div>
-
-    <!-- Opción 1: Usando window.location -->
-    <button class="btn btn-primary" onclick="redirectToPage()">
-        🚀 Ir a Pantalla (JavaScript)
-    </button>
-
-    <!-- Opción 2: Usando un enlace -->
-    <a href="pantalla.html" class="btn btn-secondary">
-        🔗 Ir a Pantalla (Enlace)
-    </a>
-
-    <!-- Opción 3: Con confirmación -->
-    <button class="btn btn-accent" onclick="confirmRedirect()">
-        ⚡ Ir a Pantalla (Con confirmación)
-    </button>
-
-    <script>
-        // Función simple de redirección
-        function redirectToPage() {
-            // En un entorno real, esto funcionaría:
-            // window.location.href = 'Pantalla.html';
-            
-            // Para demostración:
-            alert('Redirigiendgeo a pantalla.html...\n\nEn tu proyecto real, usa:\nwindow.location.href = "Pantalla.html";');
-        }
-
-        // Función con confirmación
-        function confirmRedirect() {
-            if (confirm('¿Estás seguro de que quieres ir a la pantalla?')) {
-                // window.location.href = 'Pantalla.html';
-                alert('¡Confirmado! Redirigiendo a Pantalla.html...');
-            }
-        }
-
-        // Si quisieras usar meta refresh automático (como mencionaste):
-        function autoRedirect() {
-            // Esto redirigiría automáticamente después de 3 segundos
-            setTimeout(() => {
-                window.location.href = 'Pantalla.html';
-            }, 3000);
-        }
-    </script>
-</body>
-</html>
+    <radialGradient id="pulseGradient" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#4a9eff;stop-opacity:0.8">
+        <animate attributeName="stop-opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#0b486b;stop-opacity:0">
+        <animate attributeName="stop-opacity" values="0;0.4;0" dur="2s" repeatCount="indefinite"/>
+      </stop>
+    </radialGradient>
+    
+    <linearGradient id="screenMatrix" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff41;stop-opacity:0.9"/>
+      <stop offset="50%" style="stop-color:#4a9eff;stop-opacity:0.7"/>
+      <stop offset="100%" style="stop-color:#0b486b;stop-opacity:0.5"/>
+    </linearGradient>
+    
+    <!-- Efectos de partículas -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="megaGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Patrón de circuitos -->
+    <pattern id="circuitPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M0 20 L40 20 M20 0 L20 40" stroke="#4a9eff" stroke-width="0.5" opacity="0.3">
+        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+      </path>
+      <circle cx="20" cy="20" r="2" fill="#00ff41" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+    </pattern>
+    
+    <style type="text/css"><![CDATA[
+      .matrix-text {
+        font-family: "Courier New", monospace;
+        font-size: 10px;
+        fill: url(#screenMatrix);
+        font-weight: bold;
+      }
+      .text-name { 
+        font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-weight: 800; 
+        font-size: 42px; 
+        fill: url(#primaryGradient);
+        letter-spacing: -0.5px;
+      }
+      .text-role { 
+        font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif; 
+        font-weight: 400; 
+        font-size: 18px; 
+        fill: #5a7a8a;
+        letter-spacing: 0.5px;
+      }
+    ]]></style>
+  </defs>
+  
+  <!-- Fondo de partículas animadas -->
+  <rect width="100%" height="100%" fill="url(#circuitPattern)" opacity="0.1"/>
+  
+  <!-- Partículas flotantes épicas -->
+  <g opacity="0.7">
+    <circle cx="100" cy="80" r="3" fill="#4a9eff" filter="url(#glow)">
+      <animate attributeName="cy" values="80;60;80" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="650" cy="150" r="2" fill="#00ff41" filter="url(#glow)">
+      <animate attributeName="cx" values="650;680;650" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="200" cy="300" r="4" fill="#1e7bb8" filter="url(#glow)">
+      <animate attributeName="r" values="4;8;4" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="500" cy="320" r="2" fill="#4a9eff" filter="url(#glow)">
+      <animate attributeName="cy" values="320;280;320" dur="6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Monitor con efecto holográfico -->
+  <g transform="translate(80,50)">
+    <!-- Aura de energía -->
+    <rect x="-10" y="-10" width="220" height="160" rx="20" ry="20" fill="url(#pulseGradient)" opacity="0.4"/>
+    
+    <!-- Pantalla principal -->
+    <rect x="0" y="0" width="200" height="120" rx="8" ry="8" fill="#000814" stroke="#4a9eff" stroke-width="2">
+      <animate attributeName="stroke-width" values="2;4;2" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    
+    <!-- Matrix code effect -->
+    <g class="matrix-text">
+      <text x="10" y="20">01001000 01100101 01101100</text>
+      <text x="10" y="35">01101100 01101111 00100000</text>
+      <text x="10" y="50">01010111 01101111 01110010</text>
+      <text x="10" y="65">01101100 01100100 00100001</text>
+      <text x="10" y="80">function() { return epic; }</text>
+      <text x="10" y="95">> SYSTEMS_ONLINE</text>
+      
+      <!-- Efecto de escritura -->
+      <animateTransform attributeName="transform" type="translate" 
+                        values="0,120;0,0;0,0;0,-120" dur="8s" repeatCount="indefinite"/>
+    </g>
+    
+    <!-- Línea de scan épica -->
+    <rect x="5" y="0" width="190" height="2" fill="url(#screenMatrix)" opacity="0.8">
+      <animate attributeName="y" values="0;118;0" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite"/>
+    </rect>
+    
+    <!-- Base del monitor con pulsación -->
+    <rect x="85" y="125" width="30" height="8" rx="2" ry="2" fill="url(#primaryGradient)">
+      <animate attributeName="width" values="30;35;30" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="x" values="85;82.5;85" dur="2s" repeatCount="indefinite"/>
+    </rect>
+    <polygon points="90,133 110,133 105,140 95,140" fill="url(#primaryGradient)"/>
+  </g>
+  
+  <!-- Engranajes giratorios épicos -->
+  <g transform="translate(320,45)">
+    <!-- Engrane principal con rotación -->
+    <g filter="url(#megaGlow)">
+      <circle cx="50" cy="70" r="35" fill="none" stroke="#4a9eff" stroke-width="3" opacity="0.8">
+        <animate attributeName="stroke-width" values="3;6;3" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="50" cy="70" r="18" fill="url(#primaryGradient)"/>
+      
+      <!-- Dientes rotando -->
+      <g transform-origin="50 70">
+        <animateTransform attributeName="transform" type="rotate" values="0 50 70;360 50 70" dur="4s" repeatCount="indefinite"/>
+        <g stroke="#4a9eff" stroke-width="4" fill="none">
+          <rect x="47" y="30" width="6" height="12" rx="1"/>
+          <rect x="47" y="98" width="6" height="12" rx="1"/>
+          <rect x="12" y="67" width="12" height="6" rx="1"/>
+          <rect x="76" y="67" width="12" height="6" rx="1"/>
+          <rect x="25" y="42" width="8" height="8" rx="1" transform="rotate(45 29 46)"/>
+          <rect x="67" y="42" width="8" height="8" rx="1" transform="rotate(-45 71 46)"/>
+          <rect x="25" y="84" width="8" height="8" rx="1" transform="rotate(-45 29 88)"/>
+          <rect x="67" y="84" width="8" height="8" rx="1" transform="rotate(45 71 88)"/>
+        </g>
+      </g>
+    </g>
+    
+    <!-- Engrane secundario contra-rotación -->
+    <g transform="translate(60,35)" filter="url(#glow)">
+      <circle cx="25" cy="25" r="20" fill="none" stroke="#00ff41" stroke-width="3"/>
+      <circle cx="25" cy="25" r="10" fill="url(#primaryGradient)"/>
+      <g transform-origin="25 25">
+        <animateTransform attributeName="transform" type="rotate" values="360 25 25;0 25 25" dur="3s" repeatCount="indefinite"/>
+        <g stroke="#00ff41" stroke-width="3" fill="none">
+          <rect x="23" y="2" width="4" height="8" rx="1"/>
+          <rect x="23" y="40" width="4" height="8" rx="1"/>
+          <rect x="2" y="23" width="8" height="4" rx="1"/>
+          <rect x="40" y="23" width="8" height="4" rx="1"/>
+        </g>
+      </g>
+    </g>
+  </g>
+  
+  <!-- CPU con efecto de energía -->
+  <g transform="translate(440,50)" filter="url(#megaGlow)">
+    <!-- Aura de poder -->
+    <rect x="-5" y="-5" width="90" height="90" rx="8" ry="8" fill="url(#pulseGradient)" opacity="0.6"/>
+    
+    <!-- Cuerpo del chip -->
+    <rect x="0" y="0" width="80" height="80" rx="4" ry="4" fill="url(#primaryGradient)">
+      <animate attributeName="fill-opacity" values="1;0.8;1" dur="2s" repeatCount="indefinite"/>
+    </rect>
+    
+    <!-- Circuitos con pulsos de energía -->
+    <g stroke="#00ff41" stroke-width="2" fill="none" opacity="0.9">
+      <circle cx="40" cy="40" r="25">
+        <animate attributeName="r" values="25;30;25" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-width" values="2;4;2" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="40" cy="40" r="15">
+        <animate attributeName="r" values="15;18;15" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="40" cy="40" r="8" fill="#4a9eff">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="1s" repeatCount="indefinite"/>
+      </circle>
+      
+      <!-- Líneas de energía -->
+      <path d="M15 40 L65 40">
+        <animate attributeName="stroke-dasharray" values="0,50;25,25;50,0;25,25;0,50" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <path d="M40 15 L40 65">
+        <animate attributeName="stroke-dasharray" values="0,50;25,25;50,0;25,25;0,50" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+      </path>
+      <path d="M25 25 L55 55">
+        <animate attributeName="stroke-dasharray" values="0,40;20,20;40,0;20,20;0,40" dur="2s" repeatCount="indefinite" begin="1s"/>
+      </path>
+      <path d="M55 25 L25 55">
+        <animate attributeName="stroke-dasharray" values="0,40;20,20;40,0;20,20;0,40" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+      </path>
+    </g>
+    
+    <!-- Pines con efecto de carga -->
+    <g fill="url(#primaryGradient)">
+      <rect x="-3" y="15" width="6" height="3" rx="0.5">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="-3" y="25" width="6" height="3" rx="0.5">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite" begin="0.1s"/>
+      </rect>
+      <rect x="-3" y="35" width="6" height="3" rx="0.5">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite" begin="0.2s"/>
+      </rect>
+      <rect x="-3" y="45" width="6" height="3" rx="0.5">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite" begin="0.3s"/>
+      </rect>
+      <rect x="-3" y="55" width="6" height="3" rx="0.5">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite" begin="0.4s"/>
+      </rect>
+      
+      <rect x="77" y="15" width="6" height="3" rx="0.5">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite" begin="0.5s"/>
+      </rect>
+      <rect x="77" y="25" width="6" height="3" rx="0.5">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite" begin="0.6s"/>
+      </rect>
+      <rect x="77" y="35" width="6" height="3" rx="0.5">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite" begin="0.7s"/>
+      </rect>
+      <rect x="77" y="45" width="6" height="3" rx="0.5">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite" begin="0.8s"/>
+      </rect>
+      <rect x="77" y="55" width="6" height="3" rx="0.5">
+        <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="0.5s" repeatCount="indefinite" begin="0.9s"/>
+      </rect>
+    </g>
+  </g>
+  
+  <!-- Conexiones de datos épicas -->
+  <g stroke="#4a9eff" stroke-width="3" fill="none" filter="url(#glow)">
+    <path d="M280 110 Q320 90 370 95" stroke-dasharray="10,5">
+      <animate attributeName="stroke-dashoffset" values="0;15" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-width" values="3;6;3" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M420 90 Q430 70 460 85" stroke-dasharray="8,4">
+      <animate attributeName="stroke-dashoffset" values="0;12" dur="0.8s" repeatCount="indefinite"/>
+      <animate attributeName="stroke" values="#4a9eff;#00ff41;#4a9eff" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Texto principal con efecto de materialización -->
+  <g transform="translate(80,250)">
+    <text x="0" y="0" class="text-name" filter="url(#glow)">
+      <tspan>Zabdiel Córdova Alejandro</tspan>
+      <animate attributeName="opacity" values="0;1" dur="2s" begin="1s" fill="freeze"/>
+      <animateTransform attributeName="transform" type="translate" values="0,20;0,0" dur="2s" begin="1s" fill="freeze"/>
+    </text>
+    
+    <text x="0" y="35" class="text-role">
+      <tspan>Ingeniero en Sistemas Computacionales</tspan>
+      <animate attributeName="opacity" values="0;1" dur="2s" begin="2s" fill="freeze"/>
+      <animateTransform attributeName="transform" type="translate" values="0,20;0,0" dur="2s" begin="2s" fill="freeze"/>
+    </text>
+    
+    <!-- Línea de energía -->
+    <line x1="0" y1="45" x2="0" y2="45" stroke="url(#primaryGradient)" stroke-width="3" filter="url(#glow)">
+      <animate attributeName="x2" values="0;200;0" dur="4s" repeatCount="indefinite" begin="3s"/>
+      <animate attributeName="stroke-width" values="3;6;3" dur="2s" repeatCount="indefinite" begin="3s"/>
+    </line>
+  </g>
+  
+  <!-- Avatar épico con aura -->
+  <g transform="translate(580,280)">
+    <!-- Aura rotating -->
+    <circle cx="50" cy="50" r="60" fill="none" stroke="url(#primaryGradient)" stroke-width="2" opacity="0.6" stroke-dasharray="20,10">
+      <animateTransform attributeName="transform" type="rotate" values="0 50 50;360 50 50" dur="8s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-width" values="2;4;2" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Fondo con pulso -->
+    <rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="url(#primaryGradient)" filter="url(#megaGlow)">
+      <animate attributeName="fill-opacity" values="1;0.8;1" dur="2s" repeatCount="indefinite"/>
+    </rect>
+    
+    <!-- Iniciales con efecto holográfico -->
+    <text x="50" y="65" 
+          font-family="Segoe UI, -apple-system, BlinkMacSystemFont, Arial, sans-serif" 
+          font-size="36" 
+          font-weight="700" 
+          text-anchor="middle" 
+          fill="white"
+          filter="url(#glow)">ZC
+      <animate attributeName="fill-opacity" values="1;0.7;1" dur="1.5s" repeatCount="indefinite"/>
+    </text>
+    
+    <!-- Borde con pulso -->
+    <rect x="2" y="2" width="96" height="96" rx="18" ry="18" fill="none" stroke="#4a9eff" stroke-width="2">
+      <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-width" values="2;4;2" dur="3s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+  
+  <!-- Efectos de rayos de energía -->
+  <g opacity="0.3">
+    <path d="M400 200 L420 180 L440 200 L460 170 L480 190" stroke="#4a9eff" stroke-width="2" fill="none">
+      <animate attributeName="opacity" values="0.3;0.8;0.3" dur="0.5s" repeatCount="indefinite"/>
+      <animate attributeName="stroke" values="#4a9eff;#00ff41;#4a9eff" dur="1s" repeatCount="indefinite"/>
+    </path>
+    <path d="M120 180 L140 160 L160 180 L180 150 L200 170" stroke="#00ff41" stroke-width="2" fill="none">
+      <animate attributeName="opacity" values="0.3;0.8;0.3" dur="0.7s" repeatCount="indefinite" begin="0.3s"/>
+    </path>
+  </g>
+  
+</svg>
